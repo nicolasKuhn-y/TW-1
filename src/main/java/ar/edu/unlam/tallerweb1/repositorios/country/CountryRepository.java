@@ -2,6 +2,7 @@ package ar.edu.unlam.tallerweb1.repositorios.country;
 
 import ar.edu.unlam.tallerweb1.modelo.Country;
 import ar.edu.unlam.tallerweb1.modelo.Vaccine;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -37,7 +38,9 @@ public class CountryRepository implements ICountryRepository {
     public List<Country> getCountries() {
         final Session session = sessionFactory.getCurrentSession();
 
-        return (List<Country>) session.createCriteria(Country.class).list();
+        return (List<Country>) session.createCriteria(Country.class)
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+                .list();
     }
 
 }

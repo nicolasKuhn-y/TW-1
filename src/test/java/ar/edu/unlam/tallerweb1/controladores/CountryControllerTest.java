@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
+import ar.edu.unlam.tallerweb1.modelo.Country;
 import ar.edu.unlam.tallerweb1.modelo.Vaccine;
 import ar.edu.unlam.tallerweb1.servicios.country.CountryService;
 import org.assertj.core.api.Assertions;
@@ -37,6 +38,15 @@ public class CountryControllerTest {
     }
 
     @Test
+    public void itShouldShowAllTheCountries() {
+        whenThereAreCountries();
+
+        List<Country> countries = (List<Country>) getCountriesViewModel().get("countries");
+
+        Assertions.assertThat(countries).hasSize(2);
+    }
+
+    @Test
     public void itShouldShowAllTheRequiredVaccines() {
         String countryCode = "AR";
         whenThereAreVaccines(countryCode);
@@ -53,12 +63,22 @@ public class CountryControllerTest {
         return mav.getModel();
     }
 
+    private Map<String, Object> getCountriesViewModel() {
+        ModelAndView mav = countryController.getCountryView();
+
+        return mav.getModel();
+    }
+
     private void whenThereAreVaccines(String countryName) {
         when(countryService.getVaccines(countryName)).thenReturn(List.of(new Vaccine()));
     }
 
     private void whenThereAreNoVaccines(String countryName) {
         when(countryService.getVaccines(countryName)).thenReturn(new ArrayList<>());
+    }
+
+    private void whenThereAreCountries() {
+        when(countryService.getCountries()).thenReturn(List.of(new Country(), new Country()));
     }
 
 

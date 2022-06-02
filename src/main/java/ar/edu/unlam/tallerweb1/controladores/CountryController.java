@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
+import ar.edu.unlam.tallerweb1.modelo.Country;
 import ar.edu.unlam.tallerweb1.modelo.Vaccine;
 import ar.edu.unlam.tallerweb1.servicios.country.ICountryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,16 +24,22 @@ public class CountryController {
 
     @RequestMapping("/countries")
     public ModelAndView getCountryView() {
+        ModelMap model = new ModelMap();
+        List<Country> countries = countryService.getCountries();
 
-        return new ModelAndView("country");
+        model.put("countries", countries);
+
+        return new ModelAndView("country", model);
     }
 
     @RequestMapping(value = "/show-vaccines", method = RequestMethod.GET)
-
     public ModelAndView showRequiredVaccines(@RequestParam(value = "code") String countryName) {
         ModelMap model = new ModelMap();
 
+        List<Country> countries = countryService.getCountries();
         List<Vaccine> requiredVaccines = countryService.getVaccines(countryName);
+
+        model.put("countries", countries);
 
         if (requiredVaccines.isEmpty()) {
             model.put("notFoundVaccines", "No hay vacunas requeridas para entrar al pais");

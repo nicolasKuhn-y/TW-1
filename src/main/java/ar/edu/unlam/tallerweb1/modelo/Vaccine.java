@@ -1,7 +1,6 @@
 package ar.edu.unlam.tallerweb1.modelo;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 public class Vaccine {
@@ -12,6 +11,10 @@ public class Vaccine {
 
     private String name;
 
+    private Integer totalInyections;
+
+    private Integer restTime;
+
     public Vaccine() {
     }
 
@@ -21,5 +24,29 @@ public class Vaccine {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getTotalInyections() {
+        return totalInyections;
+    }
+
+    public void setTotalInyections(Integer totalInyections) {
+        this.totalInyections = totalInyections;
+    }
+
+    public Integer getRestTime() {
+        return restTime;
+    }
+
+    public void setRestTime(Integer restTime) {
+        this.restTime = restTime;
     }
 }
