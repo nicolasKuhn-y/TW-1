@@ -53,7 +53,7 @@ public class CountryRepositoryTest extends SpringTest {
         Country country2 = createCountry("AR");
 
         this.session().save(country1);
-
+        this.session().save(country2);
 
         List<Country> countries = countryRepository.getCountries();
 
