@@ -12,14 +12,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional
+@Rollback
 public class CountryRepositoryTest extends SpringTest {
 
     @Autowired
     private CountryRepository countryRepository;
 
     @Test
-    @Transactional
-    @Rollback
     public void itShouldReturnAllRequiredVaccinesGivenACountryName() {
         Country country = createCountry("PE");
 
@@ -37,8 +37,6 @@ public class CountryRepositoryTest extends SpringTest {
     }
 
     @Test
-    @Transactional
-    @Rollback
     public void itShouldReturnAnEmptyListIfNoCountryWasFound() {
         List<Vaccine> requiredVaccines = countryRepository.getRequiredVaccines("ZW");
 
@@ -46,8 +44,6 @@ public class CountryRepositoryTest extends SpringTest {
     }
 
     @Test
-    @Transactional
-    @Rollback
     public void itShouldReturnAllCountriesFound() {
         Country country1 = createCountry("PE");
         Country country2 = createCountry("AR");

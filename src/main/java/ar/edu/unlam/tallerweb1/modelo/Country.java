@@ -2,6 +2,7 @@ package ar.edu.unlam.tallerweb1.modelo;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Country {
@@ -23,8 +24,9 @@ public class Country {
     )
     private List<Vaccine> vaccinesRequired;
 
-    public Country() {
-    }
+
+    @OneToMany(mappedBy = "country")
+    private Set<CountryVaccineGroup> vaccineGroups;
 
     public Long getId() {
         return id;
