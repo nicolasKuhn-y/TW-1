@@ -41,6 +41,23 @@ public class CountryRepository implements ICountryRepository {
     }
 
     @Override
+    public Set<Vaccine> getRecommendedVaccines(String code) {
+        final Session session = sessionFactory.getCurrentSession();
+
+        Country countryFound = (Country) session.createCriteria(Country.class)
+                .add(Restrictions.eq("code", code))
+                .uniqueResult();
+
+        if (countryFound == null) return null;
+
+        return countryFound.getVaccineGroups()
+                .stream()
+                .filter(item -> item.isVacciceRequired().equals(Boolean.FALSE))
+                .map(CountryVaccineGroup::getVaccine)
+                .collect(Collectors.toSet());
+    }
+
+    @Override
     public List<Country> getCountries() {
         return (List<Country>) sessionFactory.getCurrentSession()
                 .createCriteria(Country.class)

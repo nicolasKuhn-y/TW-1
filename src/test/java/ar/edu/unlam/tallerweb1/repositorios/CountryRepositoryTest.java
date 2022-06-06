@@ -25,16 +25,11 @@ public class CountryRepositoryTest extends SpringTest {
     public void itShouldReturnAllRequiredVaccinesGivenACountryName() {
         Country country = createCountry("PE");
 
-        Vaccine vaccine1 = createVaccine("vaccineOne");
-        Vaccine vaccine2 = createVaccine("vaccineTwo");
-
-        CountryVaccineGroup relation1 = new CountryVaccineGroup(vaccine1, country, Boolean.TRUE);
-        CountryVaccineGroup relation2 = new CountryVaccineGroup(vaccine2, country, Boolean.TRUE);
+        CountryVaccineGroup relation1 = createCountryVaccine(country, "vaccineOne", Boolean.TRUE);
+        CountryVaccineGroup relation2 = createCountryVaccine(country, "vaccineTwo", Boolean.TRUE);
 
         country.setVaccineGroups(Set.of(relation1, relation2));
 
-        this.session().save(relation1);
-        this.session().save(relation2);
         this.session().save(country);
 
         Set<Vaccine> requiredVaccines = countryRepository.getRequiredVaccines(country.getCode());
@@ -46,16 +41,11 @@ public class CountryRepositoryTest extends SpringTest {
     public void itShouldReturnOnlyTheRequiredVaccines() {
         Country country = createCountry("PE");
 
-        Vaccine vaccine1 = createVaccine("vaccineOne");
-        Vaccine vaccine2 = createVaccine("vaccineTwo");
-
-        CountryVaccineGroup relation1 = new CountryVaccineGroup(vaccine1, country, Boolean.TRUE);
-        CountryVaccineGroup relation2 = new CountryVaccineGroup(vaccine2, country, Boolean.FALSE);
+        CountryVaccineGroup relation1 = createCountryVaccine(country, "vaccineOne", Boolean.TRUE);
+        CountryVaccineGroup relation2 = createCountryVaccine(country, "vaccineTwo", Boolean.FALSE);
 
         country.setVaccineGroups(Set.of(relation1, relation2));
 
-        this.session().save(relation1);
-        this.session().save(relation2);
         this.session().save(country);
 
         Set<Vaccine> requiredVaccines = countryRepository.getRequiredVaccines(country.getCode());
@@ -71,6 +61,22 @@ public class CountryRepositoryTest extends SpringTest {
     }
 
     @Test
+    public void itShouldReturnAllRecommendedVaccines() {
+        Country country = createCountry("PE");
+
+        CountryVaccineGroup relation1 = createCountryVaccine(country, "vaccineOne", Boolean.FALSE);
+        CountryVaccineGroup relation2 = createCountryVaccine(country, "vaccineTwo", Boolean.FALSE);
+
+        country.setVaccineGroups(Set.of(relation1, relation2));
+
+        this.session().save(country);
+
+        Set<Vaccine> recommendedVaccines = countryRepository.getRecommendedVaccines(country.getCode());
+
+        Assertions.assertThat(recommendedVaccines).hasSize(2);
+    }
+
+    @Test
     public void itShouldReturnAllCountriesFound() {
         Country country1 = createCountry("PE");
         Country country2 = createCountry("AR");
@@ -83,6 +89,15 @@ public class CountryRepositoryTest extends SpringTest {
         Assertions.assertThat(countries).hasSize(2);
     }
 
+    private CountryVaccineGroup createCountryVaccine(Country country, String vaccineName, Boolean isRequired) {
+        Vaccine vaccine = createVaccine(vaccineName);
+
+        CountryVaccineGroup vaccineGroup = new CountryVaccineGroup(vaccine, country, isRequired);
+
+        this.session().save(vaccineGroup);
+
+        return vaccineGroup;
+    }
 
     private Country createCountry(String code) {
         Country country = new Country();

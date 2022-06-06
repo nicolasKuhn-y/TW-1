@@ -1,7 +1,6 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
 import ar.edu.unlam.tallerweb1.modelo.Country;
-import ar.edu.unlam.tallerweb1.modelo.CountryVaccineGroup;
 import ar.edu.unlam.tallerweb1.modelo.Vaccine;
 import ar.edu.unlam.tallerweb1.servicios.country.ICountryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Controller
@@ -39,7 +39,7 @@ public class CountryController {
         ModelMap model = new ModelMap();
 
         List<Country> countries = countryService.getCountries();
-        Set<Vaccine> requiredVaccines = countryService.getVaccines(countryName);
+        Map<String, Set<Vaccine>> requiredVaccines = countryService.getVaccines(countryName);
 
         model.put("countries", countries);
 

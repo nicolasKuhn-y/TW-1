@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Set;
 
 public interface ICountryRepository {
-    Set<Vaccine> getRequiredVaccines(String name);
+    Set<Vaccine> getRequiredVaccines(String code);
+
+    Set<Vaccine> getRecommendedVaccines(String code);
 
     List<Country> getCountries();
 }
