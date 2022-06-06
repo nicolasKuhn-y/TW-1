@@ -9,14 +9,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import static org.mockito.Mockito.*;
-
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class CountryServiceTest {
     private CountryRepository countryRepository;
     private CountryService countryService;
-
 
     @Before
     public void init() {
@@ -25,14 +26,15 @@ public class CountryServiceTest {
     }
 
     @Test
-    public void itShouldReturnAllTheVaccinesRequiredForACountry() {
+    public void itShouldReturnAllTheVaccinesOfACountry() {
         String countryCode = "PE";
 
         whenThereAreVaccines(countryCode);
 
-        List<Vaccine> requiredVaccines = countryService.getVaccines(countryCode);
+        Map<String, Set<Vaccine>> vaccines = countryService.getVaccines(countryCode);
 
-        Assertions.assertThat(requiredVaccines).hasSize(1);
+        Assertions.assertThat(vaccines.get("required")).hasSize(1);
+        Assertions.assertThat(vaccines.get("recommended")).hasSize(2);
     }
 
     @Test
@@ -45,7 +47,9 @@ public class CountryServiceTest {
     }
 
     private void whenThereAreVaccines(String countryCode) {
-        when(countryRepository.getRequiredVaccines(countryCode)).thenReturn(List.of(new Vaccine()));
+        when(countryRepository.getRequiredVaccines(countryCode)).thenReturn(Set.of(new Vaccine()));
+
+        when(countryRepository.getRecommendedVaccines(countryCode)).thenReturn(Set.of(new Vaccine(), new Vaccine()));
     }
 
     private void whenThereAreCountries() {

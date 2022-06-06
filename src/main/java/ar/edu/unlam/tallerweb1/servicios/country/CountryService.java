@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -20,9 +23,16 @@ public class CountryService implements ICountryService {
     }
 
     @Override
-    public List<Vaccine> getVaccines(String countryName) {
+    public Map<String, Set<Vaccine>> getVaccines(String countryCode) {
+        Set<Vaccine> requiredVaccines = countryRepository.getRequiredVaccines(countryCode);
+        Set<Vaccine> recommendedVaccines = countryRepository.getRecommendedVaccines(countryCode);
 
-        return countryRepository.getRequiredVaccines(countryName);
+        Map<String, Set<Vaccine>> vaccines = new HashMap<>();
+
+        vaccines.put("required", requiredVaccines);
+        vaccines.put("recommended", recommendedVaccines);
+
+        return vaccines;
     }
 
     @Override

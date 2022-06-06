@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Controller
 public class CountryController {
@@ -37,16 +39,20 @@ public class CountryController {
         ModelMap model = new ModelMap();
 
         List<Country> countries = countryService.getCountries();
-        List<Vaccine> requiredVaccines = countryService.getVaccines(countryName);
+        Map<String, Set<Vaccine>> vaccines = countryService.getVaccines(countryName);
 
         model.put("countries", countries);
 
-        if (requiredVaccines.isEmpty()) {
-            model.put("notFoundVaccines", "No hay vacunas requeridas para entrar al pais");
-            return new ModelAndView("country", model);
+        if (vaccines.get("required").isEmpty()) {
+            model.put("notFoundVaccinesRequired", "No hay vacunas requeridas para entrar al pais");
         }
 
-        model.put("vaccines", requiredVaccines);
+        if (vaccines.get("recommended").isEmpty()) {
+            model.put("notFoundVaccinesRecommended", "No hay vacunas recomendadas para entrar al pais");
+        }
+
+        model.put("requiredVaccines", vaccines.get("required"));
+        model.put("recommendedVaccines", vaccines.get("recommended"));
 
         return new ModelAndView("country", model);
     }

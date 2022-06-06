@@ -11,8 +11,10 @@ public class Vaccine {
 
     private String name;
 
+    @Column(name = "total_inyections")
     private Integer totalInyections;
 
+    @Column(name = "rest_time")
     private Integer restTime;
 
     public Vaccine() {
