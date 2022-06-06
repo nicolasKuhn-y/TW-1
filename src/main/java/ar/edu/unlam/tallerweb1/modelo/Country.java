@@ -16,15 +16,6 @@ public class Country {
     @Column(length = 2)
     private String code;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "country_vaccine",
-            joinColumns =   @JoinColumn(name = "country_id"),
-            inverseJoinColumns = @JoinColumn(name = "vaccine_id")
-    )
-    private List<Vaccine> vaccinesRequired;
-
-
     @OneToMany(mappedBy = "country")
     private Set<CountryVaccineGroup> vaccineGroups;
 
@@ -44,12 +35,12 @@ public class Country {
         this.name = name;
     }
 
-    public List<Vaccine> getVaccinesRequired() {
-        return vaccinesRequired;
+    public Set<CountryVaccineGroup> getVaccineGroups() {
+        return vaccineGroups;
     }
 
-    public void setVaccinesRequired(List<Vaccine> vaccinesRequired) {
-        this.vaccinesRequired = vaccinesRequired;
+    public void setVaccineGroups(Set<CountryVaccineGroup> vaccineGroups) {
+        this.vaccineGroups = vaccineGroups;
     }
 
     public String getCode() {

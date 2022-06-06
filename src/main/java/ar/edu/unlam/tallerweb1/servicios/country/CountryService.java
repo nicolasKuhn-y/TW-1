@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -20,7 +21,7 @@ public class CountryService implements ICountryService {
     }
 
     @Override
-    public List<Vaccine> getVaccines(String countryName) {
+    public Set<Vaccine> getVaccines(String countryName) {
 
         return countryRepository.getRequiredVaccines(countryName);
     }

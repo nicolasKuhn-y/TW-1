@@ -2,6 +2,7 @@ package ar.edu.unlam.tallerweb1.repositorios;
 
 import ar.edu.unlam.tallerweb1.SpringTest;
 import ar.edu.unlam.tallerweb1.modelo.Country;
+import ar.edu.unlam.tallerweb1.modelo.CountryVaccineGroup;
 import ar.edu.unlam.tallerweb1.modelo.Vaccine;
 import ar.edu.unlam.tallerweb1.repositorios.country.CountryRepository;
 import org.assertj.core.api.Assertions;
@@ -11,6 +12,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @Transactional
 @Rollback
@@ -26,21 +28,46 @@ public class CountryRepositoryTest extends SpringTest {
         Vaccine vaccine1 = createVaccine("vaccineOne");
         Vaccine vaccine2 = createVaccine("vaccineTwo");
 
+        CountryVaccineGroup relation1 = new CountryVaccineGroup(vaccine1, country, Boolean.TRUE);
+        CountryVaccineGroup relation2 = new CountryVaccineGroup(vaccine2, country, Boolean.TRUE);
 
-        country.setVaccinesRequired(List.of(vaccine1, vaccine2));
+        country.setVaccineGroups(Set.of(relation1, relation2));
 
+        this.session().save(relation1);
+        this.session().save(relation2);
         this.session().save(country);
 
-        List<Vaccine> requiredVaccines = countryRepository.getRequiredVaccines(country.getCode());
+        Set<Vaccine> requiredVaccines = countryRepository.getRequiredVaccines(country.getCode());
 
         Assertions.assertThat(requiredVaccines).hasSize(2);
     }
 
     @Test
-    public void itShouldReturnAnEmptyListIfNoCountryWasFound() {
-        List<Vaccine> requiredVaccines = countryRepository.getRequiredVaccines("ZW");
+    public void itShouldReturnOnlyTheRequiredVaccines() {
+        Country country = createCountry("PE");
 
-        Assertions.assertThat(requiredVaccines).hasSize(0);
+        Vaccine vaccine1 = createVaccine("vaccineOne");
+        Vaccine vaccine2 = createVaccine("vaccineTwo");
+
+        CountryVaccineGroup relation1 = new CountryVaccineGroup(vaccine1, country, Boolean.TRUE);
+        CountryVaccineGroup relation2 = new CountryVaccineGroup(vaccine2, country, Boolean.FALSE);
+
+        country.setVaccineGroups(Set.of(relation1, relation2));
+
+        this.session().save(relation1);
+        this.session().save(relation2);
+        this.session().save(country);
+
+        Set<Vaccine> requiredVaccines = countryRepository.getRequiredVaccines(country.getCode());
+
+        Assertions.assertThat(requiredVaccines).hasSize(1);
+    }
+
+    @Test
+    public void itShouldReturnNullIfNoCountryWasFound() {
+        Set<Vaccine> requiredVaccines = countryRepository.getRequiredVaccines("ZW");
+
+        Assertions.assertThat(requiredVaccines).isNull();
     }
 
     @Test
@@ -57,7 +84,6 @@ public class CountryRepositoryTest extends SpringTest {
     }
 
 
-
     private Country createCountry(String code) {
         Country country = new Country();
         country.setCode(code);
@@ -67,10 +93,8 @@ public class CountryRepositoryTest extends SpringTest {
 
     private Vaccine createVaccine(String name) {
         Vaccine vaccine = new Vaccine();
-
         vaccine.setName(name);
 
         return vaccine;
     }
-
 }

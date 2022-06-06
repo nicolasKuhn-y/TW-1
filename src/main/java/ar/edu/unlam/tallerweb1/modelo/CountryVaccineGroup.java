@@ -52,7 +52,7 @@ public class CountryVaccineGroup {
         this.country = country;
     }
 
-    public Boolean getVaccineRequired() {
+    public Boolean isVacciceRequired() {
         return isVaccineRequired;
     }
 

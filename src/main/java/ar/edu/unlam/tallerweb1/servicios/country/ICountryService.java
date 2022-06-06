@@ -4,10 +4,11 @@ import ar.edu.unlam.tallerweb1.modelo.Country;
 import ar.edu.unlam.tallerweb1.modelo.Vaccine;
 
 import java.util.List;
+import java.util.Set;
 
 public interface ICountryService {
 
-    List<Vaccine> getVaccines(String countryName);
+    Set<Vaccine> getVaccines(String countryName);
 
     List<Country> getCountries();
 }
