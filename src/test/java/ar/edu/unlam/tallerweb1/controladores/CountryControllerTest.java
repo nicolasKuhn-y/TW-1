@@ -8,14 +8,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-/*
+
 public class CountryControllerTest {
     private CountryService countryService;
     private CountryController countryController;
@@ -48,11 +49,21 @@ public class CountryControllerTest {
     }
 
     @Test
-    public void itShouldShowAllTheRequiredVaccines() {
+    public void theModelShouldHaveAllRequiredVaccines() {
         String countryCode = "AR";
-        whenThereAreVaccines(countryCode);
+        whenThereAreRequiredVaccines(countryCode);
 
-        List<Vaccine> vaccines = (List<Vaccine>) getShowVaccinesModel(countryCode).get("vaccines");
+        Set<Vaccine> vaccines = (Set<Vaccine>) getShowVaccinesModel(countryCode).get("requiredVaccines");
+
+        Assertions.assertThat(vaccines).hasSize(2);
+    }
+
+    @Test
+    public void theModelShouldHaveAllRecommendedVaccines() {
+        String countryCode = "AR";
+        whenThereAreRecommendedVaccines(countryCode);
+
+        Set<Vaccine> vaccines = (Set<Vaccine>) getShowVaccinesModel(countryCode).get("recommendedVaccines");
 
         Assertions.assertThat(vaccines).hasSize(1);
     }
@@ -70,18 +81,24 @@ public class CountryControllerTest {
         return mav.getModel();
     }
 
-    private void whenThereAreVaccines(String countryName) {
-        when(countryService.getVaccines(countryName)).thenReturn(List.of(new Vaccine()));
+    private void whenThereAreRequiredVaccines(String countryName) {
+        Set<Vaccine> requiredVaccines = Set.of(new Vaccine(), new Vaccine());
+
+        when(countryService.getVaccines(countryName)).thenReturn(Map.of("required", requiredVaccines));
+    }
+
+    private void whenThereAreRecommendedVaccines(String countryName) {
+        Set<Vaccine> recommendedVaccines = Set.of(new Vaccine());
+
+        when(countryService.getVaccines(countryName)).thenReturn(Map.of("required", recommendedVaccines));
     }
 
     private void whenThereAreNoVaccines(String countryName) {
-        when(countryService.getVaccines(countryName)).thenReturn(new ArrayList<>());
+        when(countryService.getVaccines(countryName)).thenReturn(new HashMap<>());
     }
 
     private void whenThereAreCountries() {
         when(countryService.getCountries()).thenReturn(List.of(new Country(), new Country()));
     }
 
-
 }
-*/

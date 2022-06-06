@@ -39,16 +39,17 @@ public class CountryController {
         ModelMap model = new ModelMap();
 
         List<Country> countries = countryService.getCountries();
-        Map<String, Set<Vaccine>> requiredVaccines = countryService.getVaccines(countryName);
+        Map<String, Set<Vaccine>> vaccines = countryService.getVaccines(countryName);
 
         model.put("countries", countries);
 
-        if (requiredVaccines.isEmpty()) {
+        if (vaccines.isEmpty()) {
             model.put("notFoundVaccines", "No hay vacunas requeridas para entrar al pais");
             return new ModelAndView("country", model);
         }
 
-        model.put("vaccines", requiredVaccines);
+        model.put("requiredVaccines", vaccines.get("required"));
+        model.put("recommendedVaccines", vaccines.get("required"));
 
         return new ModelAndView("country", model);
     }
