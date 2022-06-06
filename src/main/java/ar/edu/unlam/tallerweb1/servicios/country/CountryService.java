@@ -23,7 +23,7 @@ public class CountryService implements ICountryService {
     }
 
     @Override
-    public Map<String,Set<Vaccine>> getVaccines(String countryCode) {
+    public Map<String, Set<Vaccine>> getVaccines(String countryCode) {
         Set<Vaccine> requiredVaccines = countryRepository.getRequiredVaccines(countryCode);
         Set<Vaccine> recommendedVaccines = countryRepository.getRecommendedVaccines(countryCode);
 

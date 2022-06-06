@@ -43,13 +43,16 @@ public class CountryController {
 
         model.put("countries", countries);
 
-        if (vaccines.isEmpty()) {
-            model.put("notFoundVaccines", "No hay vacunas requeridas para entrar al pais");
-            return new ModelAndView("country", model);
+        if (vaccines.get("required").isEmpty()) {
+            model.put("notFoundVaccinesRequired", "No hay vacunas requeridas para entrar al pais");
+        }
+
+        if (vaccines.get("recommended").isEmpty()) {
+            model.put("notFoundVaccinesRecommended", "No hay vacunas recomendadas para entrar al pais");
         }
 
         model.put("requiredVaccines", vaccines.get("required"));
-        model.put("recommendedVaccines", vaccines.get("required"));
+        model.put("recommendedVaccines", vaccines.get("recommended"));
 
         return new ModelAndView("country", model);
     }

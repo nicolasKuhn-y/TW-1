@@ -54,10 +54,17 @@ public class CountryRepositoryTest extends SpringTest {
     }
 
     @Test
-    public void itShouldReturnNullIfNoCountryWasFound() {
+    public void itShouldReturnAEmptySetIfNoRequiredVaccineWasFound() {
         Set<Vaccine> requiredVaccines = countryRepository.getRequiredVaccines("ZW");
 
-        Assertions.assertThat(requiredVaccines).isNull();
+        Assertions.assertThat(requiredVaccines).hasSize(0);
+    }
+
+    @Test
+    public void itShouldReturnAEmptySetIfNoRecommendedVaccineWasFound() {
+        Set<Vaccine> requiredVaccines = countryRepository.getRecommendedVaccines("ZW");
+
+        Assertions.assertThat(requiredVaccines).hasSize(0);
     }
 
     @Test

@@ -51,45 +51,83 @@
 
     <section class="container">
 
-        <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="my-2 py-2">
 
-            <c:forEach items="${vaccines}" var="vaccine">
+            <c:if test="${not empty notFoundVaccinesRequired}">
+                <p class="alert alert-danger">No hay vacunas requeridas para entrar al pais seleccionado.</p>
+            </c:if>
 
-                <div class="col">
-                    <div class="card" style="width: 300px">
-                        <img src="css/vacuna.svg" class="card-img-top p-4" alt="vacuna">
-                        <div class="card-body">
-                            <h5 class="card-title"><c:out value="${vaccine.name}"/></h5>
-                            <p class="card-text">
-                                Tiene que aplicarse hasta <c:out value="${vaccine.totalInyections}"/> dosis y
-                                se recomienda un tiempo de descanso de aproximadamente
-                                <c:out value="${vaccine.totalInyections}"/>
-                                dias entre aplicaciones.
-                            </p>
+            <c:if test="${not empty requiredVaccines}">
+                <h2 class="mb-4">Las vacunas requeridas para entrar al pais son las siguientes:</h2>
+
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+
+
+                    <c:forEach items="${requiredVaccines}" var="vaccine">
+
+                        <div class="col">
+                            <div class="card" style="width: 300px">
+                                <img src="css/vacuna.svg" class="card-img-top p-4" alt="vacuna">
+                                <div class="card-body">
+                                    <h5 class="card-title"><c:out value="${vaccine.name}"/></h5>
+                                    <p class="card-text">
+                                        Tiene que aplicarse hasta <c:out value="${vaccine.totalInyections}"/> dosis y
+                                        se recomienda un tiempo de descanso de aproximadamente
+                                        <c:out value="${vaccine.totalInyections}"/>
+                                        dias entre aplicaciones.
+                                    </p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+
+                    </c:forEach>
+
                 </div>
-
-            </c:forEach>
-
-
+            </c:if>
         </div>
 
+
+        <div class="my-2 py-2">
+
+            <c:if test="${not empty notFoundVaccinesRecommended}">
+                <p class="alert alert-danger">No hay vacunas recomendadas para entrar al pais seleccionado.</p>
+            </c:if>
+
+            <c:if test="${not empty recommendedVaccines}">
+                <h2 class="mb-4">Las vacunas recomendadas para entrar al pais son las siguientes:</h2>
+
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+
+
+                    <c:forEach items="${recommendedVaccines}" var="vaccine">
+                        <div class="col">
+                            <div class="card" style="width: 300px">
+                                <img src="css/vacuna.svg" class="card-img-top p-4" alt="vacuna">
+                                <div class="card-body">
+                                    <h5 class="card-title"><c:out value="${vaccine.name}"/></h5>
+                                    <p class="card-text">
+                                        Tiene que aplicarse hasta <c:out value="${vaccine.totalInyections}"/> dosis y
+                                        se recomienda un tiempo de descanso de aproximadamente
+                                        <c:out value="${vaccine.totalInyections}"/>
+                                        dias entre aplicaciones.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </c:forEach>
+
+
+                </div>
+            </c:if>
+        </div>
+
+
     </section>
-
-
-    <c:if test="${not empty notFoundVaccines}">
-        <p class="mt-2">No hay vacunas requeridas para entrar al pais seleccionado.</p>
-    </c:if>
-
 
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
         crossorigin="anonymous"></script>
-<%--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>--%>
-<%--<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>--%>
-<%--<script src="js/bootstrap.min.js" type="text/javascript"></script>--%>
 </body>
 </html>

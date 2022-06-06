@@ -19,7 +19,6 @@ public class CountryServiceTest {
     private CountryRepository countryRepository;
     private CountryService countryService;
 
-
     @Before
     public void init() {
         countryRepository = mock(CountryRepository.class);

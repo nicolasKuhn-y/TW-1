@@ -10,6 +10,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -31,7 +32,7 @@ public class CountryRepository implements ICountryRepository {
                 .add(Restrictions.eq("code", code))
                 .uniqueResult();
 
-        if (countryFound == null) return null;
+        if (countryFound == null) return new HashSet<>();
 
         return countryFound.getVaccineGroups()
                 .stream()
@@ -48,7 +49,7 @@ public class CountryRepository implements ICountryRepository {
                 .add(Restrictions.eq("code", code))
                 .uniqueResult();
 
-        if (countryFound == null) return null;
+        if (countryFound == null) return new HashSet<>();
 
         return countryFound.getVaccineGroups()
                 .stream()
