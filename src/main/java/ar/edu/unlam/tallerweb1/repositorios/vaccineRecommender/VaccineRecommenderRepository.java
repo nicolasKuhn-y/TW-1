@@ -1,4 +1,4 @@
-package ar.edu.unlam.tallerweb1.repositorios.country;
+package ar.edu.unlam.tallerweb1.repositorios.vaccineRecommender;
 
 import ar.edu.unlam.tallerweb1.modelo.Country;
 import ar.edu.unlam.tallerweb1.modelo.CountryVaccineGroup;
@@ -16,11 +16,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Repository
-public class CountryRepository implements ICountryRepository {
+public class VaccineRecommenderRepository implements IVaccineRecommenderRepository {
     private final SessionFactory sessionFactory;
 
     @Autowired
-    public CountryRepository(SessionFactory sessionFactory) {
+    public VaccineRecommenderRepository(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 

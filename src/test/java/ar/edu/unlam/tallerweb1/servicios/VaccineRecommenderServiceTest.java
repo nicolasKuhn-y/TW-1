@@ -2,8 +2,8 @@ package ar.edu.unlam.tallerweb1.servicios;
 
 import ar.edu.unlam.tallerweb1.modelo.Country;
 import ar.edu.unlam.tallerweb1.modelo.Vaccine;
-import ar.edu.unlam.tallerweb1.repositorios.country.CountryRepository;
-import ar.edu.unlam.tallerweb1.servicios.country.CountryService;
+import ar.edu.unlam.tallerweb1.repositorios.vaccineRecommender.VaccineRecommenderRepository;
+import ar.edu.unlam.tallerweb1.servicios.vaccineRecommender.VaccineRecommenderService;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,14 +15,14 @@ import java.util.Set;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class CountryServiceTest {
-    private CountryRepository countryRepository;
-    private CountryService countryService;
+public class VaccineRecommenderServiceTest {
+    private VaccineRecommenderRepository countryRepository;
+    private VaccineRecommenderService vaccineRecommenderService;
 
     @Before
     public void init() {
-        countryRepository = mock(CountryRepository.class);
-        countryService = new CountryService(countryRepository);
+        countryRepository = mock(VaccineRecommenderRepository.class);
+        vaccineRecommenderService = new VaccineRecommenderService(countryRepository);
     }
 
     @Test
@@ -31,7 +31,7 @@ public class CountryServiceTest {
 
         whenThereAreVaccines(countryCode);
 
-        Map<String, Set<Vaccine>> vaccines = countryService.getVaccines(countryCode);
+        Map<String, Set<Vaccine>> vaccines = vaccineRecommenderService.getVaccines(countryCode);
 
         Assertions.assertThat(vaccines.get("required")).hasSize(1);
         Assertions.assertThat(vaccines.get("recommended")).hasSize(2);
@@ -41,7 +41,7 @@ public class CountryServiceTest {
     public void itShouldReturnAllTheCountries() {
         whenThereAreCountries();
 
-        List<Country> countries = countryService.getCountries();
+        List<Country> countries = vaccineRecommenderService.getCountries();
 
         Assertions.assertThat(countries).hasSize(2);
     }

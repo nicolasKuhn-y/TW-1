@@ -1,13 +1,13 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
+import ar.edu.unlam.tallerweb1.controladores.messages.VaccineRecommenderMessages;
 import ar.edu.unlam.tallerweb1.modelo.Country;
 import ar.edu.unlam.tallerweb1.modelo.Vaccine;
-import ar.edu.unlam.tallerweb1.servicios.country.ICountryService;
+import ar.edu.unlam.tallerweb1.servicios.vaccineRecommender.IVaccineRecommenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -16,45 +16,38 @@ import java.util.Map;
 import java.util.Set;
 
 @Controller
-public class CountryController {
-    private final ICountryService countryService;
+public class VaccineRecommenderController {
+    private final IVaccineRecommenderService countryService;
 
     @Autowired
-    public CountryController(ICountryService countryService) {
+    public VaccineRecommenderController(IVaccineRecommenderService countryService) {
         this.countryService = countryService;
     }
 
     @RequestMapping("/countries")
-    public ModelAndView getCountryView() {
+    public ModelAndView getCountryView(@RequestParam(value = "code", required = false) String countryName) {
         ModelMap model = new ModelMap();
         List<Country> countries = countryService.getCountries();
 
-        model.put("countries", countries);
+        if (countryName == null) {
+            model.put("countries", countries);
+            return new ModelAndView("country", model);
+        }
 
-        return new ModelAndView("country", model);
-    }
-
-    @RequestMapping(value = "/show-vaccines", method = RequestMethod.GET)
-    public ModelAndView showRequiredVaccines(@RequestParam(value = "code") String countryName) {
-        ModelMap model = new ModelMap();
-
-        List<Country> countries = countryService.getCountries();
         Map<String, Set<Vaccine>> vaccines = countryService.getVaccines(countryName);
 
-        model.put("countries", countries);
-
         if (vaccines.get("required").isEmpty()) {
-            model.put("notFoundVaccinesRequired", "No hay vacunas requeridas para entrar al pais");
+            model.put("notFoundVaccinesRequired", VaccineRecommenderMessages.NOT_FOUND_REQUIRED_VACCINES.message);
         }
 
         if (vaccines.get("recommended").isEmpty()) {
-            model.put("notFoundVaccinesRecommended", "No hay vacunas recomendadas para entrar al pais");
+            model.put("notFoundVaccinesRecommended", VaccineRecommenderMessages.NOT_FOUND_RECOMMENDED_VACCINES.message);
         }
 
+        model.put("countries", countries);
         model.put("requiredVaccines", vaccines.get("required"));
         model.put("recommendedVaccines", vaccines.get("recommended"));
 
         return new ModelAndView("country", model);
     }
-
 }

@@ -4,7 +4,7 @@ import ar.edu.unlam.tallerweb1.SpringTest;
 import ar.edu.unlam.tallerweb1.modelo.Country;
 import ar.edu.unlam.tallerweb1.modelo.CountryVaccineGroup;
 import ar.edu.unlam.tallerweb1.modelo.Vaccine;
-import ar.edu.unlam.tallerweb1.repositorios.country.CountryRepository;
+import ar.edu.unlam.tallerweb1.repositorios.vaccineRecommender.VaccineRecommenderRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +16,10 @@ import java.util.Set;
 
 @Transactional
 @Rollback
-public class CountryRepositoryTest extends SpringTest {
+public class VaccineRecommenderRepositoryTest extends SpringTest {
 
     @Autowired
-    private CountryRepository countryRepository;
+    private VaccineRecommenderRepository countryRepository;
 
     @Test
     public void itShouldReturnAllRequiredVaccinesGivenACountryName() {

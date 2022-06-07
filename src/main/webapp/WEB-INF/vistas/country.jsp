@@ -28,7 +28,7 @@
 
 <main class="container my-5">
 
-    <form:form action="show-vaccines" method="GET">
+    <form:form action="countries" method="GET">
         <div>
             <label class="d-block">Seleccione un pais:</label>
 
