@@ -1,7 +1,6 @@
 package ar.edu.unlam.tallerweb1.modelo;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 
 @Entity
