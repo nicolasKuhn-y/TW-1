@@ -28,7 +28,7 @@
 
 <main class="container my-5">
 
-    <form:form action="show-vaccines" method="GET">
+    <form:form action="countries" method="GET">
         <div>
             <label class="d-block">Seleccione un pais:</label>
 
@@ -51,10 +51,14 @@
 
     <section class="container">
 
+        <c:if test="${not empty error}">
+            <p class="alert alert-danger">${error}</p>
+        </c:if>
+
         <div class="my-2 py-2">
 
             <c:if test="${not empty notFoundVaccinesRequired}">
-                <p class="alert alert-danger">No hay vacunas requeridas para entrar al pais seleccionado.</p>
+                <p class="alert alert-danger">${notFoundVaccinesRequired}</p>
             </c:if>
 
             <c:if test="${not empty requiredVaccines}">
@@ -90,7 +94,7 @@
         <div class="my-2 py-2">
 
             <c:if test="${not empty notFoundVaccinesRecommended}">
-                <p class="alert alert-danger">No hay vacunas recomendadas para entrar al pais seleccionado.</p>
+                <p class="alert alert-danger">${notFoundVaccinesRecommended}</p>
             </c:if>
 
             <c:if test="${not empty recommendedVaccines}">

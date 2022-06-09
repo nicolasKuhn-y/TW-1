@@ -12,4 +12,6 @@ public interface ICountryRepository {
     Set<Vaccine> getRecommendedVaccines(String code);
 
     List<Country> getCountries();
+
+    Country getCountryByCode(String code);
 }
