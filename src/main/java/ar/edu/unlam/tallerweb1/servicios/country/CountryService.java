@@ -1,5 +1,7 @@
 package ar.edu.unlam.tallerweb1.servicios.country;
 
+import ar.edu.unlam.tallerweb1.controladores.messages.CountryMessages;
+import ar.edu.unlam.tallerweb1.exceptions.CountryNotFoundException;
 import ar.edu.unlam.tallerweb1.modelo.Country;
 import ar.edu.unlam.tallerweb1.modelo.Vaccine;
 import ar.edu.unlam.tallerweb1.repositorios.country.CountryRepository;
@@ -24,6 +26,8 @@ public class CountryService implements ICountryService {
 
     @Override
     public Map<String, Set<Vaccine>> getVaccines(String countryCode) {
+        verifyCountryExists(countryCode);
+
         Set<Vaccine> requiredVaccines = countryRepository.getRequiredVaccines(countryCode);
         Set<Vaccine> recommendedVaccines = countryRepository.getRecommendedVaccines(countryCode);
 
@@ -38,5 +42,13 @@ public class CountryService implements ICountryService {
     @Override
     public List<Country> getCountries() {
         return countryRepository.getCountries();
+    }
+
+    private void verifyCountryExists(String code) {
+        Country countryFound = countryRepository.getCountryByCode(code);
+
+        if (countryFound == null) {
+            throw new CountryNotFoundException(CountryMessages.NOT_COUNTRY_FOUND.message);
+        }
     }
 }

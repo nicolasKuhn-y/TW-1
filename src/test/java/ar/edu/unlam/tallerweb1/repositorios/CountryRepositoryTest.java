@@ -96,6 +96,18 @@ public class CountryRepositoryTest extends SpringTest {
         Assertions.assertThat(countries).hasSize(2);
     }
 
+    @Test
+    public void itShouldReturnACountryByCode() {
+        String code = "AR";
+        Country country = createCountry("AR");
+
+        this.session().save(country);
+
+        Country countryFound = countryRepository.getCountryByCode(code);
+
+        Assertions.assertThat(countryFound.getCode()).isEqualTo(code);
+    }
+
     private CountryVaccineGroup createCountryVaccine(Country country, String vaccineName, Boolean isRequired) {
         Vaccine vaccine = createVaccine(vaccineName);
 

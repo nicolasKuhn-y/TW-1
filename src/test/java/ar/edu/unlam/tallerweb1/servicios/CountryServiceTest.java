@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.servicios;
 
+import ar.edu.unlam.tallerweb1.exceptions.CountryNotFoundException;
 import ar.edu.unlam.tallerweb1.modelo.Country;
 import ar.edu.unlam.tallerweb1.modelo.Vaccine;
 import ar.edu.unlam.tallerweb1.repositorios.country.CountryRepository;
@@ -12,8 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class CountryServiceTest {
     private CountryRepository countryRepository;
@@ -46,9 +46,19 @@ public class CountryServiceTest {
         Assertions.assertThat(countries).hasSize(2);
     }
 
-    private void whenThereAreVaccines(String countryCode) {
-        when(countryRepository.getRequiredVaccines(countryCode)).thenReturn(Set.of(new Vaccine()));
+    @Test(expected = CountryNotFoundException.class)
+    public void itShouldThrowAnErrorWhenNoCountryWasFound() {
+        String code = "AR";
+        whenThereIsNoCountryWithCode(code);
 
+        countryService.getVaccines(code);
+
+        verifyNoRepositoryMethodWasCalled(code);
+    }
+
+    private void whenThereAreVaccines(String countryCode) {
+        when(countryRepository.getCountryByCode(countryCode)).thenReturn(new Country());
+        when(countryRepository.getRequiredVaccines(countryCode)).thenReturn(Set.of(new Vaccine()));
         when(countryRepository.getRecommendedVaccines(countryCode)).thenReturn(Set.of(new Vaccine(), new Vaccine()));
     }
 
@@ -57,6 +67,15 @@ public class CountryServiceTest {
         Country country2 = new Country();
 
         when(countryRepository.getCountries()).thenReturn(List.of(country1, country2));
+    }
+
+    private void whenThereIsNoCountryWithCode(String code) {
+        when(countryRepository.getCountryByCode(code)).thenReturn(null);
+    }
+
+    private void verifyNoRepositoryMethodWasCalled(String code) {
+        verify(countryRepository,never()).getRecommendedVaccines(code);
+        verify(countryRepository,never()).getRequiredVaccines(code);
     }
 
 }

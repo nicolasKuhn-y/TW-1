@@ -66,4 +66,13 @@ public class CountryRepository implements ICountryRepository {
                 .list();
     }
 
+    @Override
+    public Country getCountryByCode(String code) {
+        final Session session = sessionFactory.getCurrentSession();
+
+        return (Country) session.createCriteria(Country.class)
+                .add(Restrictions.eq("code", code))
+                .uniqueResult();
+    }
+
 }
