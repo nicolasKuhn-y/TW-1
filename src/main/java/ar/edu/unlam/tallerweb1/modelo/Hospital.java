@@ -1,9 +1,8 @@
 package ar.edu.unlam.tallerweb1.modelo;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import ar.edu.unlam.tallerweb1.shared.Coordinates;
+
+import javax.persistence.*;
 
 @Entity
 public class Hospital {
@@ -20,8 +19,6 @@ public class Hospital {
 
     private Double longitude;
 
-    public Hospital() {
-    }
 
     public Long getId() {
         return id;
@@ -61,6 +58,10 @@ public class Hospital {
 
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
+    }
+
+    public Coordinates getCoordinates() {
+        return new Coordinates(latitude, longitude);
     }
 
     @Override

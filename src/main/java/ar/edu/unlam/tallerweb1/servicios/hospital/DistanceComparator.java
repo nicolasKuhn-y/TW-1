@@ -1,4 +1,4 @@
-package ar.edu.unlam.tallerweb1.repositorios.hospital;
+package ar.edu.unlam.tallerweb1.servicios.hospital;
 
 import ar.edu.unlam.tallerweb1.modelo.Hospital;
 import ar.edu.unlam.tallerweb1.utils.Location;
@@ -14,8 +14,8 @@ public class DistanceComparator implements Comparator<Hospital> {
 
     @Override
     public int compare(Hospital o1, Hospital o2) {
-        Double distance1 = currentLocation.getDistanceTo(o1.getLatitude(), o1.getLongitude());
-        Double distance2 = currentLocation.getDistanceTo(o2.getLatitude(), o2.getLongitude());
+        Double distance1 = currentLocation.getDistanceTo(o1.getCoordinates());
+        Double distance2 = currentLocation.getDistanceTo(o2.getCoordinates());
 
         return distance1.compareTo(distance2);
     }

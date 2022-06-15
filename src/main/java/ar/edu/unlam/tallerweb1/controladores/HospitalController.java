@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 
@@ -22,24 +24,25 @@ public class HospitalController {
         this.hospitalService = hospitalService;
     }
 
-    @RequestMapping(value = "/hospitals", method = RequestMethod.POST)
+
+    @RequestMapping(value = "/nearest-hospitals", method = RequestMethod.GET)
     public ModelAndView getNearestHospitals(
-            @RequestParam("lat") Double lat,
-            @RequestParam("long") Double lng
+            @RequestParam(value ="lat", required = false) Double lat,
+            @RequestParam(value ="long", required = false) Double lng,
+            @RequestParam(value = "limit", required = false) Integer limit
     ) {
         try {
             ModelMap model = new ModelMap();
 
-            List<Hospital> hospitalList = hospitalService.getNearestHospitalsByLocation(lat, lng);
+            List<Hospital> hospitalList = hospitalService.getNearestHospitalsByLocation(lat, lng, limit);
 
             model.put("hospitals", hospitalList);
 
-            return null;
+            return new ModelAndView("nearestHospitals", model);
         } catch (InvalidCoordinatesException exception) {
             ModelMap model = new ModelMap("error", exception.getMessage());
 
-            return null;
+            return new ModelAndView("nearestHospitals", model);
         }
     }
-
 }

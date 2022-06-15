@@ -1,15 +1,15 @@
 package ar.edu.unlam.tallerweb1.servicios.hospital;
 
 import ar.edu.unlam.tallerweb1.modelo.Hospital;
-import ar.edu.unlam.tallerweb1.repositorios.hospital.DistanceComparator;
 import ar.edu.unlam.tallerweb1.repositorios.hospital.HospitalRepository;
+import ar.edu.unlam.tallerweb1.utils.Location;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ar.edu.unlam.tallerweb1.utils.Location;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -23,14 +23,19 @@ public class HospitalService implements IHospitalService {
     }
 
     @Override
-    public List<Hospital> getNearestHospitalsByLocation(Double latitude, Double longitude) {
+    public List<Hospital> getNearestHospitalsByLocation(Double latitude, Double longitude, Integer limit) {
+        int defaultLimit = 3;
+
+        if (limit == null)
+            limit = defaultLimit;
+
         Location currentLocation = Location.createWithCoordinates(latitude, longitude);
 
-        List<Hospital> hospitals = new ArrayList<>(hospitalRepository.getAllHospitals());
-
-        hospitals.sort(new DistanceComparator(currentLocation));
-
-        return hospitals;
+        return new ArrayList<>(hospitalRepository.getAllHospitals())
+                .stream()
+                .sorted(new DistanceComparator(currentLocation))
+                .limit(limit)
+                .collect(Collectors.toList());
     }
 
 }
