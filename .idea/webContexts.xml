@@ -4,6 +4,7 @@
     <option name="state">
       <map>
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/vistas/Vaccination.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/vistas" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/vistas/all-hospitals.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/vistas" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/vistas/country.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/vistas" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/vistas/vaccination.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/vistas" />
       </map>

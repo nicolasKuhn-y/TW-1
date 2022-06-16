@@ -17,8 +17,33 @@ public class Vaccine {
     @Column(name = "rest_time")
     private Integer restTime;
 
+    @Column(name = "maxAge")
+    private Integer maxAgeApplication;
+    @Column(name = "minAge")
+    private Integer minAgeApplication;
+
+
     public Vaccine() {
     }
+
+
+    public Integer getMaxAgeApplication() {
+        return maxAgeApplication;
+    }
+
+    public void setMaxAgeApplication(Integer maxAgeApplication) {
+        this.maxAgeApplication = maxAgeApplication;
+    }
+
+    public Integer getMinAgeApplication() {
+        return minAgeApplication;
+    }
+
+    public void setMinAgeApplication(Integer minAgeApplication) {
+        this.minAgeApplication = minAgeApplication;
+    }
+
+
 
     public String getName() {
         return name;

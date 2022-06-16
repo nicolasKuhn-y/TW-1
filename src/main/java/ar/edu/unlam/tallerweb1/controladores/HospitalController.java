@@ -50,10 +50,11 @@ public class HospitalController {
         List<Hospital> listHospital = null;
         try{
             listHospital = hospitalService.findAllHospitals();
+            model.put("hospital", listHospital);
         } catch (Exception e){
             model.put("error","No Se Encontraron Vacunatorios En La Base De Datos");
         }
-        model.put("hospital", listHospital);
+
         return new ModelAndView("/all-hospitals",model);
     }
 }
