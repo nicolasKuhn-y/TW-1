@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 
@@ -44,5 +42,18 @@ public class HospitalController {
 
             return new ModelAndView("nearestHospitals", model);
         }
+    }
+
+    @RequestMapping("/all-hospitals")
+    public ModelAndView listHospitals() {
+        ModelMap model = new ModelMap();
+        List<Hospital> listHospital = null;
+        try{
+            listHospital = hospitalService.findAllHospitals();
+        } catch (Exception e){
+            model.put("error","No Se Encontraron Vacunatorios En La Base De Datos");
+        }
+        model.put("hospital", listHospital);
+        return new ModelAndView("/all-hospitals",model);
     }
 }

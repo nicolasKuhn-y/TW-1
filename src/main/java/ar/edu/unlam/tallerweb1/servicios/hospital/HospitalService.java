@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +21,12 @@ public class HospitalService implements IHospitalService {
     @Autowired
     public HospitalService(HospitalRepository hospitalRepository) {
         this.hospitalRepository = hospitalRepository;
+    }
+
+
+    @Override
+    public List<Hospital> findAllHospitals() {
+        return hospitalRepository.getAllHospitals();
     }
 
     @Override

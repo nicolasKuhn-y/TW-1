@@ -1,5 +1,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.LinkedList" %>
+<%@ page import="java.sql.*" %><%--
+  Created by IntelliJ IDEA.
+  User: rodrigo
+  Date: 15/6/2022
+  Time: 03:28
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -10,7 +18,6 @@
     <link rel="stylesheet" href="css/common.css">
 </head>
 <body>
-
 <header class="py-2 header">
     <div class=" container-fluid d-flex align-items-center">
         <h1 class="h2">Viajes seguros</h1>
@@ -23,22 +30,30 @@
             <li><a href="#" class="nav-link px-2 text-white ">Vista 5</a></li>
         </ul>
     </div>
+
+
 </header>
 
-<main class="container">
+<main class="container my-5">
 
-    <c:forEach items="${hospitals}" var="hospital">
-        <div>
-            <h2>
-                <c:out value="${hospital.name}"/>
-            </h2>
-        </div>
-    </c:forEach>
+     <h1>lista de vacunatorios</h1>
 
-</main>
+     <c:forEach items="${hospital}" var="hospital">
+         <li>${hospital["name"]}</li>
+     </c:forEach>
+
+
+     <c:if test="${not empty error}">
+         <h4><span>${error}</span></h4>
+         <br>
+     </c:if>
+     ${msg-error}
+
+    </main>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
         crossorigin="anonymous"></script>
+
 </body>
 </html>

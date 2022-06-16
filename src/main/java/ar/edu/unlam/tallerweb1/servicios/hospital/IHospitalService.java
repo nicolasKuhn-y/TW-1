@@ -7,4 +7,6 @@ import java.util.List;
 public interface IHospitalService {
 
    List<Hospital> getNearestHospitalsByLocation(Double latitude, Double longitude, Integer Limit);
+
+   List<Hospital> findAllHospitals();
 }
