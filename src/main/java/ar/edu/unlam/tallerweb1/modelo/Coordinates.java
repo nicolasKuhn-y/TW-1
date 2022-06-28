@@ -1,4 +1,4 @@
-package ar.edu.unlam.tallerweb1.shared;
+package ar.edu.unlam.tallerweb1.modelo;
 
 import ar.edu.unlam.tallerweb1.exceptions.InvalidCoordinatesException;
 

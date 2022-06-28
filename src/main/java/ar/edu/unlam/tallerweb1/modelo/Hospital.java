@@ -1,7 +1,5 @@
 package ar.edu.unlam.tallerweb1.modelo;
 
-import ar.edu.unlam.tallerweb1.shared.Coordinates;
-
 import javax.persistence.*;
 
 @Entity

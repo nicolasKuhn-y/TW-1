@@ -3,7 +3,7 @@ package ar.edu.unlam.tallerweb1.servicios.hospital;
 import ar.edu.unlam.tallerweb1.exceptions.HospitalNotFoundException;
 import ar.edu.unlam.tallerweb1.modelo.Hospital;
 import ar.edu.unlam.tallerweb1.repositorios.hospital.HospitalRepository;
-import ar.edu.unlam.tallerweb1.utils.Location;
+import ar.edu.unlam.tallerweb1.servicios.location.Location;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

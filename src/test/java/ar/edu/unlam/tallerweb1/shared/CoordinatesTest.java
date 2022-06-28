@@ -1,6 +1,7 @@
 package ar.edu.unlam.tallerweb1.shared;
 
 import ar.edu.unlam.tallerweb1.exceptions.InvalidCoordinatesException;
+import ar.edu.unlam.tallerweb1.modelo.Coordinates;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 

@@ -1,6 +1,7 @@
 package ar.edu.unlam.tallerweb1.utils;
 
-import ar.edu.unlam.tallerweb1.shared.Coordinates;
+import ar.edu.unlam.tallerweb1.modelo.Coordinates;
+import ar.edu.unlam.tallerweb1.servicios.location.Location;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
