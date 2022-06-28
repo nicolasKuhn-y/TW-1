@@ -51,9 +51,25 @@ public class HospitalControllerTest {
         Assertions.assertThat(errorMessage).isEqualTo(ERROR_MESSAGE);
     }
 
+    @Test
+    public void theModelShouldHaveTheFoundHospital() {
+        Long id = 1L;
+
+        whenHospitalIsFound(id);
+
+        Hospital hospitalFound = (Hospital) getHospitalDetailModel(id).get("hospital");
+
+        Assertions.assertThat(hospitalFound).isNotNull();
+    }
 
     private Map<String, Object> getHospitalsModel(Double lat, Double lgn, Integer limit) {
         ModelAndView mav = hospitalController.getNearestHospitals(lat, lgn, limit);
+
+        return mav.getModel();
+    }
+
+    private Map<String, Object> getHospitalDetailModel(Long id) {
+        ModelAndView mav = hospitalController.getHospitalDetail(id);
 
         return mav.getModel();
     }
@@ -62,6 +78,10 @@ public class HospitalControllerTest {
         when(hospitalService.getNearestHospitalsByLocation(lat, lgn, limit)).thenReturn(
                 List.of(new Hospital(), new Hospital(), new Hospital())
         );
+    }
+
+    private  void  whenHospitalIsFound(Long id) {
+        when(hospitalService.getHospitalById(id)).thenReturn(new Hospital());
     }
 
     private void whenAnErrorIsThrow(Double lat, Double lgn, Integer limit) {

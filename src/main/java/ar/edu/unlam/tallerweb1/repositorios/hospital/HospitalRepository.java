@@ -3,6 +3,7 @@ package ar.edu.unlam.tallerweb1.repositorios.hospital;
 import ar.edu.unlam.tallerweb1.modelo.Hospital;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -23,4 +24,13 @@ public class HospitalRepository implements IHospitalRepository {
                 .createCriteria(Hospital.class)
                 .list();
     }
+
+    @Override
+    public Hospital getOneHospital(Long id) {
+        return (Hospital) sessionFactory.getCurrentSession()
+                .createCriteria(Hospital.class)
+                .add(Restrictions.eq("id", id))
+                .uniqueResult();
+    }
+
 }

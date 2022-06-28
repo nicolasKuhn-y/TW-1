@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface IHospitalRepository {
     List<Hospital> getAllHospitals();
+
+    Hospital getOneHospital(Long id);
 }
