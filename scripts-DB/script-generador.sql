@@ -1,8 +1,8 @@
 USE tw1;
 
 
-INSERT INTO user(id, email, password)
-VALUES (1, 'nicolaskuhn02@gmail.com', 'contraSegura123');
+INSERT INTO user(id, email, password, name)
+VALUES (1, 'nicolaskuhn02@gmail.com', 'contraSegura123', "Nicolas");
 
 INSERT INTO country(id, code, name)
 VALUES 
