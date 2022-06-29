@@ -7,6 +7,7 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	private String name;
 	private String email;
 	private String password;
 
@@ -34,10 +35,19 @@ public class User {
 		this.password = password;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	@Override
 	public String toString() {
-		return "Usuario{" +
-				"email='" + email + '\'' +
+		return "User{" +
+				"id=" + id +
+				", email='" + email + '\'' +
 				", password='" + password + '\'' +
 				'}';
 	}

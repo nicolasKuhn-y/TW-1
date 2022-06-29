@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.servicios;
 
+import ar.edu.unlam.tallerweb1.exceptions.HospitalNotFoundException;
 import ar.edu.unlam.tallerweb1.modelo.Hospital;
 import ar.edu.unlam.tallerweb1.repositorios.hospital.HospitalRepository;
 import ar.edu.unlam.tallerweb1.servicios.hospital.HospitalService;
@@ -60,6 +61,23 @@ public class HospitalServiceTest {
         Assertions.assertThat(hospitals).hasSize(1);
     }
 
+    @Test
+    public void itShouldReturnAHospitalById() {
+        Long id = 1L;
+        whenHospitalWasFound(id);
+
+        Hospital hospitalFound = hospitalService.getHospitalById(id);
+
+        Assertions.assertThat(hospitalFound).isNotNull();
+    }
+
+    @Test(expected = HospitalNotFoundException.class)
+    public void itShouldThrowAnErrorIfHospitalWasNotFound() {
+        Long id = 1L;
+        whenHospitalWasNotFound(id);
+
+        hospitalService.getHospitalById(id);
+    }
 
     private void whenThereHospitalsNearMe() {
         Hospital hospital1 = createHospital(-34.6666036949306, -58.60643375867638, nearestHospitalName);
@@ -72,6 +90,16 @@ public class HospitalServiceTest {
         when(hospitalRepository.getAllHospitals()).thenReturn(hospitalList);
     }
 
+    private void whenHospitalWasFound(Long id) {
+        Hospital hospital = createHospital(-34.54669400495503, -58.520319676909345, "Capital");
+
+        when(hospitalRepository.getOneHospital(id)).thenReturn(hospital);
+    }
+
+    private void whenHospitalWasNotFound(Long id) {
+        when(hospitalRepository.getOneHospital(id)).thenReturn(null);
+    }
+
     private Hospital createHospital(double lat, double lng, String name) {
         Hospital hospital = new Hospital();
 
@@ -81,5 +109,4 @@ public class HospitalServiceTest {
 
         return hospital;
     }
-
 }

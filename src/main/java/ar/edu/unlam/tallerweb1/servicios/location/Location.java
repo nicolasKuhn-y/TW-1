@@ -1,7 +1,7 @@
-package ar.edu.unlam.tallerweb1.utils;
+package ar.edu.unlam.tallerweb1.servicios.location;
 
 
-import ar.edu.unlam.tallerweb1.shared.Coordinates;
+import ar.edu.unlam.tallerweb1.modelo.Coordinates;
 
 public class Location {
     private final Coordinates coordinates;

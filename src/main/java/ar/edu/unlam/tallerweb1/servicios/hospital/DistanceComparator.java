@@ -1,7 +1,7 @@
 package ar.edu.unlam.tallerweb1.servicios.hospital;
 
 import ar.edu.unlam.tallerweb1.modelo.Hospital;
-import ar.edu.unlam.tallerweb1.utils.Location;
+import ar.edu.unlam.tallerweb1.servicios.location.Location;
 
 import java.util.Comparator;
 

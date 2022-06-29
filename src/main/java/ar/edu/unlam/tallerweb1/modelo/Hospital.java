@@ -1,7 +1,5 @@
 package ar.edu.unlam.tallerweb1.modelo;
 
-import ar.edu.unlam.tallerweb1.shared.Coordinates;
-
 import javax.persistence.*;
 
 @Entity
@@ -19,6 +17,13 @@ public class Hospital {
 
     private Double longitude;
 
+    @Column(length = 1000)
+    private String description;
+
+    private String imageUrl;
+
+    @Column(length = 500)
+    private String address;
 
     public Long getId() {
         return id;
@@ -62,6 +67,31 @@ public class Hospital {
 
     public Coordinates getCoordinates() {
         return new Coordinates(latitude, longitude);
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     @Override
