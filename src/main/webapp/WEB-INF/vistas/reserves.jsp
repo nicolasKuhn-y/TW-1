@@ -1,9 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Mis reservas</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
@@ -27,7 +26,8 @@
                    class="nav-link px-2 text-white ">
                     Hospitales cercanos</a>
             </li>
-            <li><a href="${pageContext.request.contextPath}/reserves" class="nav-link px-2 text-white">Mis reservas</a></li>
+            <li><a href="${pageContext.request.contextPath}/reserves" class="nav-link px-2 text-white">Mis reservas</a>
+            </li>
             <li><a href="#" class="nav-link px-2 text-white">Vista 4</a></li>
             <li><a href="#" class="nav-link px-2 text-white">Vista 5</a></li>
         </ul>
@@ -35,48 +35,41 @@
 
 </header>
 
-<main class="container">
+<main class="container my-5">
+
+    <c:if test="${empty reserves}">
+        <p class="alert alert-danger">Usted no tiene reservas registradas hasta hoy.</p>
+    </c:if>
 
 
-    <div class="row m-5">
+    <c:if test="${not empty reserves}">
 
-        <c:if test="${not empty error}">
-            <p class="alert alert-danger">${error}</p>
-        </c:if>
+        <div>
+            <h1 class="h3">Bienvenido ${userName}!</h1>
+            <p class="mb-1">Estas son sus reservas hasta la fecha:</p>
+        </div>
 
 
-        <c:forEach items="${hospitals}" var="hospital">
-            <div class="col">
-                <div class="card mx-2 animate__fadeInUp">
-                    <img src="${pageContext.request.contextPath}${hospital.imageUrl}" height="180" class="card-img-top"
-                         alt="foto hospital ${hospital.name}">
-
-                    <div class="card-body">
-                        <h5 class="card-title">${hospital.name}</h5>
-                        <p class="card-text">
-                            Email de contacto: ${hospital.email}
-
+        <ul class="list-group " style="max-width: 800px">
+            <c:forEach items="${reserves}" var="reserve">
+                <li class="list-group-item my-4 shadow-sm rounded">
+                    <div class="p-2">
+                        <p class="mb-2">
+                            Su turno esta agendado para el dia: <c:out value="${reserve.date}"/>
                         </p>
 
-                        <p class="card-text">
-                            Direccion: ${hospital.address}
+                        <p class="mb-2">
+                            El turno se realizara en el hospital <c:out value="${reserve.hospital.name}"/>
+                            con domicilio en <c:out value="${reserve.hospital.address}"/>.
                         </p>
-
-                        <p class="card-text">${hospital.description}</p>
-
-                        <a href="${pageContext.request.contextPath}/hospitals/${hospital.id}" class="btn btn-primary">Ver
-                            detalle</a>
                     </div>
-
-                </div>
-            </div>
-        </c:forEach>
-
-
-    </div>
-
+                </li>
+            </c:forEach>
+        </ul>
+    </c:if>
 
 </main>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"

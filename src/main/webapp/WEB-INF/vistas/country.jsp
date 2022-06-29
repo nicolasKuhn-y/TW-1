@@ -26,12 +26,11 @@
                    class="nav-link px-2 text-white ">
                     Hospitales cercanos</a>
             </li>
-            <li><a href="#" class="nav-link px-2 text-white ">Vista 3</a></li>
-            <li><a href="#" class="nav-link px-2 text-white ">Vista 4</a></li>
-            <li><a href="#" class="nav-link px-2 text-white ">Vista 5</a></li>
+            <li><a href="${pageContext.request.contextPath}/reserves" class="nav-link px-2 text-white">Mis reservas</a></li>
+            <li><a href="#" class="nav-link px-2 text-white">Vista 4</a></li>
+            <li><a href="#" class="nav-link px-2 text-white">Vista 5</a></li>
         </ul>
     </div>
-
 
 </header>
 

@@ -48,5 +48,4 @@ public class HospitalRepositoryTest extends SpringTest {
         Assertions.assertThat(hospitalFound.getId()).isEqualTo(hospital.getId());
     }
 
-
 }
