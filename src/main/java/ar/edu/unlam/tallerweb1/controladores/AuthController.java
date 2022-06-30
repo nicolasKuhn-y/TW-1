@@ -54,7 +54,6 @@ public class AuthController {
             this.loginService.createUser(userData);
 
 
-
             return new ModelAndView("redirect:/login");
         } catch (InvalidFieldException exception) {
             model.put("error", exception.getMessage());

@@ -4,6 +4,7 @@ package ar.edu.unlam.tallerweb1.modelo;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 @Entity
 public class Reserve {
@@ -22,6 +23,17 @@ public class Reserve {
 
     public Reserve() {
     }
+
+    public Reserve(LocalDateTime date, User user, Hospital hospital) {
+        this.date = date;
+        this.user = user;
+        this.hospital = hospital;
+    }
+
+    public static Reserve create(LocalDateTime date, User user, Hospital hospital) {
+        return new Reserve(date, user, hospital);
+    }
+
 
     public Long getId() {
         return id;
@@ -53,6 +65,20 @@ public class Reserve {
 
     public void setHospital(Hospital hospital) {
         this.hospital = hospital;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Reserve reserve = (Reserve) o;
+        return Objects.equals(id, reserve.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override
