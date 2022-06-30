@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -22,25 +23,23 @@ public class VaccineController {
         this.vaccineService=vaccineService;
     }
 
-    @RequestMapping(value="/vaccine-recommended-by-age",method = RequestMethod.POST)
-    public ModelAndView listVaccineRecommendedByAge(@RequestParam(value = "fechaNac", required = true) LocalDate fechaNac){
+    @RequestMapping(value="/vaccine-recommended-by-age",method = RequestMethod.GET)
+    public ModelAndView listVaccineRecommendedByAge(@RequestParam(value = "anio", required = false) Integer anio){
         ModelMap model = new ModelMap();
-        List<Vaccine> listRecommended = null;
         try {
-            listRecommended = vaccineService.findVaccinesRecommendedByAge(fechaNac);
+            List<Vaccine> listRecommended = vaccineService.findVaccinesRecommendedByAge(anio);
             model.put("vaccine",listRecommended);
         }catch (Exception e){
             model.put("error","No se recomiendan vacunas para su edad");
         }
-        return new ModelAndView("/recommended-vaccine",model);
+        return new ModelAndView("/vaccine-recommended-by-age",model);
     }
 
     @RequestMapping("/all-vaccine")
     public ModelAndView listAllVaccine(){
         ModelMap model = new ModelMap();
-        List<Vaccine> listVaccine = null;
         try{
-            listVaccine = vaccineService.findAllVaccine();
+            List<Vaccine>  listVaccine = vaccineService.findAllVaccine();
             model.put("vaccine",listVaccine);
         }catch (Exception e){
             model.put("error","No se encontraron vacunas en la base de datos");

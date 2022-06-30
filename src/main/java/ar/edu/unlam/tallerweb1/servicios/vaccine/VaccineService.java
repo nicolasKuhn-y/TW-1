@@ -4,12 +4,14 @@ import ar.edu.unlam.tallerweb1.modelo.Vaccine;
 import ar.edu.unlam.tallerweb1.repositorios.vaccine.IVaccineRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-@Service
+@Service @Transactional
 public class VaccineService implements IVaccineService{
 
 
@@ -21,9 +23,9 @@ public class VaccineService implements IVaccineService{
     }
 
     @Override
-    public List<Vaccine> findVaccinesRecommendedByAge(LocalDate fechaNacimiento) {
+    public List<Vaccine> findVaccinesRecommendedByAge(int anio) {
         List<Vaccine> listVaccineRecommended = new LinkedList<>();
-        Integer AgeUser = calcularEdad(fechaNacimiento);
+        Integer AgeUser = calcularEdad(anio);
         List<Vaccine> listAllVaccine = vaccineRepository.listAllVaccine();
         for (int i = 0; i < listAllVaccine.size(); i++) {
             int maxAge = listAllVaccine.get(i).getMaxAge();
@@ -41,10 +43,10 @@ public class VaccineService implements IVaccineService{
         return vaccineRepository.listAllVaccine();
     }
 
-    private Integer calcularEdad(LocalDate fechaNacimiento) {
+    private Integer calcularEdad(int anio) {
         LocalDate actual = LocalDate.now();
 
-        return  actual.getYear()-fechaNacimiento.getYear();
+        return  actual.getYear()-anio;
     }
 
 }
