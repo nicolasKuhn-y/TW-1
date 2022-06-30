@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="proyecto-limpio-spring" />
         <module name="TW-1" />
+        <module name="app" />
       </profile>
     </annotationProcessing>
   </component>

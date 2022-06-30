@@ -14,12 +14,12 @@ VALUES
 (6, "PO", "Portugal"),
 (7, "AL", "Alemania");
 
-INSERT INTO vaccine(id, name, rest_time, total_inyections)
-VALUES 
-(1, "Antirrabica",  3, 2),
-(2, "COVID-19", 7, 4),
-(3, "Fiebre amarilla", 14, 1),
-(4, "Tetanos", 5, 2);
+INSERT INTO vaccine(id, name, rest_time, total_inyections, maxAge, minAge)
+VALUES
+    (1, "Antirrabica",  3, 2, 65, 7),
+    (2, "COVID-19", 7, 4 , 90, 13),
+    (3, "Fiebre amarilla", 14, 1, 50, 1),
+    (4, "Tetanos", 5, 2, 90, 13);
 
 INSERT INTO country_vaccine_group(id, is_vaccine_required, country_id, vaccine_id)
 VALUES
