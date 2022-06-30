@@ -25,6 +25,9 @@ public class Hospital {
     @Column(length = 500)
     private String address;
 
+    @Column(name = "appointments_mount")
+    private Integer appointmentsAmount;
+
     public Long getId() {
         return id;
     }
@@ -92,6 +95,18 @@ public class Hospital {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public Integer getAppointmentsAmount() {
+        return appointmentsAmount;
+    }
+
+    public void setAppointmentsAmount(Integer appointmentsAmount) {
+        this.appointmentsAmount = appointmentsAmount;
+    }
+
+    public void reduceAppointmentsAmount(int quantity) {
+        setAppointmentsAmount(getAppointmentsAmount() - quantity);
     }
 
     @Override

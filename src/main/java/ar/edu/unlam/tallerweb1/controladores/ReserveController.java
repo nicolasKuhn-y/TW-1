@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
+import ar.edu.unlam.tallerweb1.exceptions.HospitalWithoutAppointmentsException;
 import ar.edu.unlam.tallerweb1.modelo.Reserve;
 import ar.edu.unlam.tallerweb1.modelo.User;
 import ar.edu.unlam.tallerweb1.repositorios.reserve.dtos.CreateReserveDto;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
@@ -48,19 +50,25 @@ public class ReserveController {
     @RequestMapping(value = "/reserves/{hospitalId}", method = RequestMethod.POST)
     public ModelAndView createReserveForUser(
             @PathVariable("hospitalId") Long hospitalId,
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @RequestParam LocalDateTime date
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @RequestParam LocalDateTime date,
+            final RedirectAttributes redirectAttributes
     ) {
-        if (hospitalId == null || date == null)
-            return new ModelAndView("redirect:/nearest-hospitals");
+        try {
+            if (hospitalId == null || date == null)
+                return new ModelAndView("redirect:/nearest-hospitals");
 
+            User user = (User) session.getAttribute("user");
 
-        User user = (User) session.getAttribute("user");
+            CreateReserveDto reserveDto = new CreateReserveDto(date, user, hospitalId);
 
-        CreateReserveDto reserveDto = new CreateReserveDto(date, user, hospitalId);
+            reserveService.makeReserve(reserveDto);
 
-        reserveService.makeReserve(reserveDto);
+            return new ModelAndView("redirect:/hospitals/" + hospitalId);
+        } catch (HospitalWithoutAppointmentsException exception) {
+            redirectAttributes.addFlashAttribute("error", exception.getMessage());
 
-        return new ModelAndView("redirect:/hospitals/" + hospitalId);
+            return new ModelAndView("redirect:/hospitals/" + hospitalId);
+        }
     }
 
 }

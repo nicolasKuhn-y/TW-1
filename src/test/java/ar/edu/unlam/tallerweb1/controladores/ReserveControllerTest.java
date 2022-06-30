@@ -67,7 +67,7 @@ public class ReserveControllerTest {
 
         whenUserIsLogged(userId);
 
-        ModelAndView mav = reserveController.createReserveForUser(hospitalId, date);
+        ModelAndView mav = reserveController.createReserveForUser(hospitalId, date, null);
 
         String wantedViewName = "redirect:/hospitals/" + 1;
 
@@ -78,7 +78,7 @@ public class ReserveControllerTest {
     public void itShouldRedirectToHospitalsViewIfHospitalIdIsNull() {
         LocalDateTime date = LocalDateTime.now();
 
-        ModelAndView mav = reserveController.createReserveForUser(null, date);
+        ModelAndView mav = reserveController.createReserveForUser(null, date, null);
 
         String wantedViewName = "redirect:/nearest-hospitals";
 
@@ -89,7 +89,7 @@ public class ReserveControllerTest {
     public void itShouldRedirectToHospitalsViewIfHospitalDateParameterIsNull() {
         Long hospitalId = 1L;
 
-        ModelAndView mav = reserveController.createReserveForUser(hospitalId, null);
+        ModelAndView mav = reserveController.createReserveForUser(hospitalId, null, null);
 
         String wantedViewName = "redirect:/nearest-hospitals";
 

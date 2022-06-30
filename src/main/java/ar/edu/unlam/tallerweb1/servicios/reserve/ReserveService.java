@@ -1,11 +1,12 @@
 package ar.edu.unlam.tallerweb1.servicios.reserve;
 
+import ar.edu.unlam.tallerweb1.exceptions.HospitalWithoutAppointmentsException;
 import ar.edu.unlam.tallerweb1.exceptions.UserNotFoundException;
-import ar.edu.unlam.tallerweb1.repositorios.reserve.dtos.CreateReserveDto;
 import ar.edu.unlam.tallerweb1.modelo.Hospital;
 import ar.edu.unlam.tallerweb1.modelo.Reserve;
 import ar.edu.unlam.tallerweb1.repositorios.hospital.IHospitalRepository;
 import ar.edu.unlam.tallerweb1.repositorios.reserve.IReserveRepository;
+import ar.edu.unlam.tallerweb1.repositorios.reserve.dtos.CreateReserveDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +38,11 @@ public class ReserveService implements IReserveService {
     @Override
     public void makeReserve(CreateReserveDto reserveDto) {
         Hospital hospitalFound = hospitalRepository.getOneHospital(reserveDto.getHospitalId());
+
+        if (hospitalFound.getAppointmentsAmount().equals(0))
+            throw new HospitalWithoutAppointmentsException("No hay mas turnos por el dia de hoy.");
+
+        hospitalFound.reduceAppointmentsAmount(1);
 
         reserveRepository.makeReserve(Reserve.create(reserveDto.getDateTime(), reserveDto.getUser(), hospitalFound));
     }

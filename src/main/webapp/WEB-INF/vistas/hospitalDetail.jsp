@@ -30,12 +30,47 @@
 
 </header>
 
-<main class="container">
-    <h1>
-        <c:out value="${hospital.name}"/>
-    </h1>
+<main class="container my-4 py-4">
 
-    <img src="${pageContext.request.contextPath}${hospital.imageUrl}" width="500" alt=""/>
+    <c:if test="${not empty error}">
+        <p class="alert alert-danger">${error}</p>
+    </c:if>
+
+    <section style="max-width: 1000px">
+        <div>
+            <h1>
+                Hospital <c:out value="${hospital.name}"/>
+            </h1>
+
+            <img src="${pageContext.request.contextPath}${hospital.imageUrl}" width="500" alt=""/>
+        </div>
+
+        <div class="my-4" style="max-width: 650px">
+            <p>
+                <c:out value="${hospital.description}"/>
+            </p>
+
+            <p>
+                Turnos disponibles para sacar:
+                <c:out value="${hospital.appointmentsAmount}"/>
+            </p>
+        </div>
+
+        <form action="${pageContext.request.contextPath}/reserves/${hospital.id}?date=2022-07-11T18:25:00" method="POST">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="date">Fecha</label>
+                    <input id="date" type="date" name="appointmentDay" class="form-control">
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="hour">Hora</label>
+                    <input id="hour" type="time" name="appointmentHour" class="form-control">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Agendar Turno</button>
+        </form>
+
+    </section>
 </main>
 
 

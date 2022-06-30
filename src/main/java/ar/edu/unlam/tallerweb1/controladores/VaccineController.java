@@ -22,7 +22,7 @@ public class VaccineController {
         this.vaccineService=vaccineService;
     }
 
-    @RequestMapping(value="/vaccine-recommended-by-age",method = RequestMethod.POST)
+    @RequestMapping(value="contraSegura123",method = RequestMethod.POST)
     public ModelAndView listVaccineRecommendedByAge(@RequestParam(value = "fechaNac", required = true) LocalDate fechaNac){
         ModelMap model = new ModelMap();
         List<Vaccine> listRecommended = null;
