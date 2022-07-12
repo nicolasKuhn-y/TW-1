@@ -12,7 +12,8 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Transactional @Rollback
+@Transactional
+@Rollback
 public class VaccineRepositoryTest extends SpringTest {
 
     @Autowired

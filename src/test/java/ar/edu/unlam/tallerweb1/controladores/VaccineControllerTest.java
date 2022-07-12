@@ -6,8 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.time.LocalDate;
-import java.time.Month;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,7 +17,7 @@ public class VaccineControllerTest {
 
     private VaccineService vaccineService;
     private VaccineController vaccineController;
-    LocalDate fechaNac = LocalDate.of(1996, Month.MAY,18);
+    Integer anioNac = 1996;
 
     @Before
     public void init(){
@@ -38,8 +36,8 @@ public class VaccineControllerTest {
     @Test
     public void queDevuelveVacunasPorFactorEdad(){
         dadoQueExistenVacunasParaBuscarPorFactor();
-        ModelAndView mav = buscarVacunarParaEdad(fechaNac);
-        entoncesMuestroLasVacunasRecomendadasALaEdad("/recommended-vaccine",mav.getViewName());
+        ModelAndView mav = buscarVacunarParaEdad(anioNac);
+        entoncesMuestroLasVacunasRecomendadasALaEdad("/vaccine-recommended-by-age",mav.getViewName());
     }
 
     private void dadoQueExistenVacunasParaBuscarPorFactor() {
@@ -47,15 +45,15 @@ public class VaccineControllerTest {
         list.add(new Vaccine("Antirrabica",65, 7));
         list.add(new Vaccine("COVID-19", 90, 13));
         list.add(new Vaccine("COVID-191", 90, 13));
-        when(vaccineService.findVaccinesRecommendedByAge(fechaNac)).thenReturn(list);
+        when(vaccineService.findVaccinesRecommendedByAge(anioNac)).thenReturn(list);
     }
 
     private void entoncesMuestroLasVacunasRecomendadasALaEdad(String VistaEsperada, String VistaRecibida) {
         assertThat(VistaEsperada).isEqualTo(VistaRecibida);
     }
 
-    private ModelAndView buscarVacunarParaEdad(LocalDate fechaNac){
-        return vaccineController.listVaccineRecommendedByAge(fechaNac);
+    private ModelAndView buscarVacunarParaEdad(Integer anioNac){
+        return vaccineController.listVaccineRecommendedByAge(anioNac);
     }
 
     private void entoncesMuestroTodasLasVacunasEnUnaVista(String VistaEsperada, String VistaRecibida) {

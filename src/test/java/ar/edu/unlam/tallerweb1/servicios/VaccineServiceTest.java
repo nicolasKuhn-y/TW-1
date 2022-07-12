@@ -1,16 +1,14 @@
 package ar.edu.unlam.tallerweb1.servicios;
 
 import ar.edu.unlam.tallerweb1.modelo.Vaccine;
-import ar.edu.unlam.tallerweb1.repositorios.hospital.HospitalRepository;
-import ar.edu.unlam.tallerweb1.repositorios.vaccine.IVaccineRepository;
 import ar.edu.unlam.tallerweb1.repositorios.vaccine.VaccineRepository;
-import ar.edu.unlam.tallerweb1.servicios.hospital.HospitalService;
 import ar.edu.unlam.tallerweb1.servicios.vaccine.VaccineService;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,7 +20,7 @@ public class VaccineServiceTest {
 
     private VaccineRepository vaccineRepository;
     private VaccineService vaccineService;
-    LocalDate fechaNac = LocalDate.of(1996, Month.MAY,18);
+    Integer anioNac = 1996;
 
 
     @Before
@@ -41,7 +39,7 @@ public class VaccineServiceTest {
     @Test
     public void queDevuelveLasVacunasRecomendadasALaEdadIngresada(){
         dadoQueExistenVacunas();
-        List<Vaccine> listVacunasRecomendades = cuandoBuscoVacunasRecomendadasPorEdad(fechaNac);
+        List<Vaccine> listVacunasRecomendades = cuandoBuscoVacunasRecomendadasPorEdad(anioNac);
         entoncesObtengoUnaListaConDosVacunasRecomendadas(listVacunasRecomendades,2);
 
     }
@@ -50,8 +48,8 @@ public class VaccineServiceTest {
         assertThat(listVacunasRecomendades.size()).isEqualTo(cantidadDeVacunasRecomendadas);
     }
 
-    private List<Vaccine> cuandoBuscoVacunasRecomendadasPorEdad(LocalDate fechaNac) {
-        return vaccineService.findVaccinesRecommendedByAge(fechaNac);
+    private List<Vaccine> cuandoBuscoVacunasRecomendadasPorEdad(int anioNac) {
+        return vaccineService.findVaccinesRecommendedByAge(anioNac);
     }
 
     private void dadoQueExistenVacunas() {
@@ -59,7 +57,7 @@ public class VaccineServiceTest {
         list.add(new Vaccine("Antirrabica",65, 7));
         list.add(new Vaccine("COVID-19", 90, 13));
         list.add(new Vaccine("COVID-191", 20, 13));
-        when(vaccineService.findVaccinesRecommendedByAge(fechaNac)).thenReturn(list);
+        when(vaccineService.findVaccinesRecommendedByAge(anioNac)).thenReturn(list);
     }
 
     private void entoncesDevuelvoLasDosVacunasEnUnaLista(List<Vaccine> listVacunas, int cantidadEnListaRecibida) {
