@@ -1,13 +1,10 @@
 package ar.edu.unlam.tallerweb1.validators;
 
-import ar.edu.unlam.tallerweb1.validators.errorMessages.AuthErrorMessages;
 import ar.edu.unlam.tallerweb1.exceptions.InvalidFieldException;
+import ar.edu.unlam.tallerweb1.validators.errorMessages.AuthErrorMessages;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 public class AuthValidatorTest extends AuthValidator {
 

@@ -10,10 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 
-@Repository @Transactional
+@Repository
 public class VaccineRepository implements IVaccineRepository {
-
-
     private final SessionFactory sessionFacctory;
 
     @Autowired

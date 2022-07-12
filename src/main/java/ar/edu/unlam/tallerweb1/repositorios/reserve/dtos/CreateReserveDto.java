@@ -1,15 +1,17 @@
-package ar.edu.unlam.tallerweb1.modelo;
+package ar.edu.unlam.tallerweb1.repositorios.reserve.dtos;
+
+import ar.edu.unlam.tallerweb1.modelo.User;
 
 import java.time.LocalDateTime;
 
 public class CreateReserveDto {
     private final LocalDateTime dateTime;
-    private final Long userId;
+    private final User user;
     private final Long hospitalId;
 
-    public CreateReserveDto(LocalDateTime dateTime, Long userId, Long hospitalId) {
+    public CreateReserveDto(LocalDateTime dateTime, User user, Long hospitalId) {
         this.dateTime = dateTime;
-        this.userId = userId;
+        this.user = user;
         this.hospitalId = hospitalId;
     }
 
@@ -17,8 +19,8 @@ public class CreateReserveDto {
         return dateTime;
     }
 
-    public Long getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
     public Long getHospitalId() {
