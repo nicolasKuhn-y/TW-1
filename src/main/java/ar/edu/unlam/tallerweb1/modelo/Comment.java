@@ -51,9 +51,22 @@ public class Comment {
         this.author = author;
     }
 
+    public Hospital getHospital() {
+        return hospital;
+    }
+
+    public void setHospital(Hospital hospital) {
+        this.hospital = hospital;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
+
+    public int getDayOfCreation() {
+        return createdAt.getDayOfMonth();
+    }
+
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;

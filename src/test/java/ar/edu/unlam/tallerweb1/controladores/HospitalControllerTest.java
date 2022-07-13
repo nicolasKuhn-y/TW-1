@@ -1,7 +1,10 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
+import ar.edu.unlam.tallerweb1.exceptions.HospitalNotFoundException;
 import ar.edu.unlam.tallerweb1.exceptions.InvalidCoordinatesException;
+import ar.edu.unlam.tallerweb1.modelo.Comment;
 import ar.edu.unlam.tallerweb1.modelo.Hospital;
+import ar.edu.unlam.tallerweb1.servicios.comment.CommentService;
 import ar.edu.unlam.tallerweb1.servicios.hospital.HospitalService;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
@@ -16,13 +19,16 @@ import static org.mockito.Mockito.when;
 
 public class HospitalControllerTest {
     private HospitalService hospitalService;
+    private CommentService commentService;
     private HospitalController hospitalController;
+
     private final String ERROR_MESSAGE = "Alguno de los valores lat o long es incorrecto.";
 
     @Before
     public void init() {
         hospitalService = mock(HospitalService.class);
-        hospitalController = new HospitalController(hospitalService);
+        commentService = mock(CommentService.class);
+        hospitalController = new HospitalController(hospitalService, commentService);
     }
 
     @Test
@@ -62,6 +68,27 @@ public class HospitalControllerTest {
         Assertions.assertThat(hospitalFound).isNotNull();
     }
 
+    @Test
+    public void itShouldRedirectToHomeIfHodpitalDetailWasNotFound() {
+        Long id = 99L;
+        whenHospitalIsNotFound(id);
+
+        var mav = hospitalController.getHospitalDetail(id);
+
+        Assertions.assertThat(mav.getViewName()).isEqualTo("redirect:/home");
+    }
+
+    @Test
+    public void theModelShouldHaveTheCommentsFromHospital() {
+        Long id = 1L;
+        whenHospitalIsFound(id);
+        whenCommentsAreFound(id);
+
+        List<Comment> comments = (List<Comment>) getHospitalDetailModel(id).get("comments");
+
+        Assertions.assertThat(comments).hasSize(2);
+    }
+
     private Map<String, Object> getHospitalsModel(Double lat, Double lgn, Integer limit) {
         ModelAndView mav = hospitalController.getNearestHospitals(lat, lgn, limit);
 
@@ -80,12 +107,21 @@ public class HospitalControllerTest {
         );
     }
 
-    private  void  whenHospitalIsFound(Long id) {
+    private void whenHospitalIsFound(Long id) {
         when(hospitalService.getHospitalById(id)).thenReturn(new Hospital());
+    }
+
+    private void whenHospitalIsNotFound(Long id) {
+        when(hospitalService.getHospitalById(id)).thenThrow( new HospitalNotFoundException());
     }
 
     private void whenAnErrorIsThrow(Double lat, Double lgn, Integer limit) {
         when(hospitalService.getNearestHospitalsByLocation(lat, lgn, limit))
                 .thenThrow(new InvalidCoordinatesException(ERROR_MESSAGE));
     }
+
+    private void whenCommentsAreFound(Long hospitalId) {
+        when(commentService.getCommentsByHospitalId(hospitalId)).thenReturn(List.of(new Comment(), new Comment()));
+    }
+
 }

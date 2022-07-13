@@ -3,6 +3,7 @@ package ar.edu.unlam.tallerweb1.controladores;
 import ar.edu.unlam.tallerweb1.exceptions.HospitalNotFoundException;
 import ar.edu.unlam.tallerweb1.exceptions.InvalidCoordinatesException;
 import ar.edu.unlam.tallerweb1.modelo.Hospital;
+import ar.edu.unlam.tallerweb1.servicios.comment.ICommentService;
 import ar.edu.unlam.tallerweb1.servicios.hospital.IHospitalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,10 +19,12 @@ import java.util.List;
 @Controller
 public class HospitalController {
     private final IHospitalService hospitalService;
+    private final ICommentService commentService;
 
     @Autowired
-    public HospitalController(IHospitalService hospitalService) {
+    public HospitalController(IHospitalService hospitalService, ICommentService commentService) {
         this.hospitalService = hospitalService;
+        this.commentService = commentService;
     }
 
 
@@ -55,15 +58,15 @@ public class HospitalController {
         try {
             ModelMap model = new ModelMap();
 
-            Hospital hospital = hospitalService.getHospitalById(id);
+            var hospital = hospitalService.getHospitalById(id);
+            var comments = commentService.getCommentsByHospitalId(id);
 
             model.put("hospital", hospital);
+            model.put("comments", comments);
 
             return new ModelAndView("hospitalDetail", model);
         } catch (HospitalNotFoundException exception) {
-
-
-            return new ModelAndView();
+            return new ModelAndView("redirect:/home");
         }
     }
 }

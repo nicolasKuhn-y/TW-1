@@ -32,7 +32,7 @@
 
 </header>
 
-<main class="container my-4 py-4">
+<main class="container my-4 py-4 px-2 shadow-lgf" style="background-color: #FFFBFA;">
 
     <c:if test="${not empty error}">
         <p class="alert alert-danger">${error}</p>
@@ -50,7 +50,7 @@
         <div class="my-4" style="max-width: 650px">
             <p>
                 <c:out value="${hospital.description}"/>
-            </p>
+            </p>bold
 
             <p>
                 Turnos disponibles para sacar:
@@ -73,6 +73,69 @@
         </form>
 
     </section>
+
+
+    <section>
+
+
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-11 col-lg-9 col-xl-7">
+
+
+                <div class="my-5 py-5 text-dark">
+                    <div class="card">
+                        <div class="card-body p-4">
+                            <div class="d-flex flex-start w-100">
+                                <img class="rounded-circle shadow-1-strong me-3"
+                                     src="${pageContext.request.contextPath}/images/avatar.jpg" alt="avatar"
+                                     width="65"
+                                     height="65"/>
+
+                                <form class="w-100">
+                                    <div class="form-outline">
+                                        <label class="mb-2" for="textArea">Dejar un comentario:</label>
+                                        <textarea class="form-control" id="textArea" rows="4"></textarea>
+                                    </div>
+
+                                    <div class="d-flex justify-content-between mt-3">
+                                        <button type="submit" class="btn text-white bold"
+                                                style="background-color: #3fbbc0; width: 100px">
+                                            Enviar
+                                        </button>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <c:if test="${not empty comments}">
+                    <c:forEach items="${comments}" var="comment">
+
+                        <div class="d-flex flex-start mb-4">
+                            <img class="rounded-circle shadow-1-strong me-3"
+                                 src="${pageContext.request.contextPath}/images/avatar.jpg" alt="avatar" width="65"
+                                 height="65"/>
+                            <div class="card w-100">
+                                <div class="card-body p-4">
+                                    <div class="">
+                                        <h5>${comment.author.name}</h5>
+                                        <p class="small">Publicado hace ${comment.dayOfCreation}  dias</p>
+                                        <p>
+                                            ${comment.description}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </c:forEach>
+                </c:if>
+
+            </div>
+        </div>
+    </section>
 </main>
 
 
@@ -80,6 +143,5 @@
         integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
         crossorigin="anonymous"></script>
 <script src="js/localization.js"></script>
-
 </body>
 </html>
