@@ -1,15 +1,16 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
+import ar.edu.unlam.tallerweb1.modelo.CalendarReserve;
 import ar.edu.unlam.tallerweb1.modelo.Reserve;
 import ar.edu.unlam.tallerweb1.modelo.User;
 import ar.edu.unlam.tallerweb1.servicios.reserve.ReserveService;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -63,11 +64,11 @@ public class ReserveControllerTest {
     public void itShouldRedirectToHospitalDetailWhenReserveWasMade() {
         Long hospitalId = 1L;
         Long userId = 1L;
-        LocalDateTime date = LocalDateTime.now();
-
+        String date = "2000-01-01";
+        String time = "03:07";
         whenUserIsLogged(userId);
 
-        ModelAndView mav = reserveController.createReserveForUser(hospitalId, date, null);
+        ModelAndView mav = reserveController.createReserveForUser(hospitalId, date, time, null);
 
         String wantedViewName = "redirect:/hospitals/" + 1;
 
@@ -75,25 +76,16 @@ public class ReserveControllerTest {
     }
 
     @Test
-    public void itShouldRedirectToHospitalsViewIfHospitalIdIsNull() {
-        LocalDateTime date = LocalDateTime.now();
+    public void itShouldReturnAResponseWithFormattedReservesForCalendar() {
+        Long userId = 1L;
+        whenUserIsLogged(userId);
 
-        ModelAndView mav = reserveController.createReserveForUser(null, date, null);
+        whenThereAreCalendarReserves(userId);
 
-        String wantedViewName = "redirect:/nearest-hospitals";
+        var response = reserveController.getReserves();
 
-        Assertions.assertThat(mav.getViewName()).isEqualTo(wantedViewName);
-    }
-
-    @Test
-    public void itShouldRedirectToHospitalsViewIfHospitalDateParameterIsNull() {
-        Long hospitalId = 1L;
-
-        ModelAndView mav = reserveController.createReserveForUser(hospitalId, null, null);
-
-        String wantedViewName = "redirect:/nearest-hospitals";
-
-        Assertions.assertThat(mav.getViewName()).isEqualTo(wantedViewName);
+        Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        Assertions.assertThat(response.getBody()).hasSize(1);
     }
 
     private Map<String, Object> getAllReservesModel() {
@@ -108,6 +100,12 @@ public class ReserveControllerTest {
         user.setName("Carlos");
 
         when(session.getAttribute("user")).thenReturn(user);
+    }
+
+    private void whenThereAreCalendarReserves(Long id) {
+        when(reserveService.getReservesForCalendar(id)).thenReturn(List.of(
+                new CalendarReserve("Belgrano", "2022-01-01 11:00:00"))
+        );
     }
 
     private void whenUserIsNotLogged() {

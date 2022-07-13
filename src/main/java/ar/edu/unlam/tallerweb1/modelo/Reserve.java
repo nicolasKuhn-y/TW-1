@@ -43,8 +43,12 @@ public class Reserve {
         this.id = id;
     }
 
-    public String getDate() {
-        return date.format(DateTimeFormatter.ofPattern("dd-MMM-yyyy 'a las' hh:mm a"));
+    public String getDateFormatted() {
+        return date.format(DateTimeFormatter.ofPattern("dd-MM-yyyy 'a las' hh:mm a"));
+    }
+
+    public LocalDateTime getDate() {
+        return date;
     }
 
     public void setDate(LocalDateTime date) {

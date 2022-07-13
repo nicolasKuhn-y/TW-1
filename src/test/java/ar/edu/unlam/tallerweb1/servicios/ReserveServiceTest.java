@@ -1,13 +1,14 @@
 package ar.edu.unlam.tallerweb1.servicios;
 
 import ar.edu.unlam.tallerweb1.exceptions.HospitalWithoutAppointmentsException;
-import ar.edu.unlam.tallerweb1.exceptions.UserNotFoundException;
+import ar.edu.unlam.tallerweb1.modelo.CalendarReserve;
 import ar.edu.unlam.tallerweb1.modelo.Hospital;
 import ar.edu.unlam.tallerweb1.modelo.Reserve;
 import ar.edu.unlam.tallerweb1.modelo.User;
 import ar.edu.unlam.tallerweb1.repositorios.hospital.HospitalRepository;
 import ar.edu.unlam.tallerweb1.repositorios.reserve.ReserveRepository;
 import ar.edu.unlam.tallerweb1.repositorios.reserve.dtos.CreateReserveDto;
+import ar.edu.unlam.tallerweb1.servicios.reserve.ReserveMapper;
 import ar.edu.unlam.tallerweb1.servicios.reserve.ReserveService;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
@@ -21,13 +22,15 @@ import static org.mockito.Mockito.*;
 public class ReserveServiceTest {
     private ReserveRepository reserveRepository;
     private HospitalRepository hospitalRepository;
+    private ReserveMapper reserveMapper;
     private ReserveService reserveService;
 
     @Before
     public void init() {
         reserveRepository = mock(ReserveRepository.class);
         hospitalRepository = mock(HospitalRepository.class);
-        reserveService = new ReserveService(reserveRepository, hospitalRepository);
+        reserveMapper = mock(ReserveMapper.class);
+        reserveService = new ReserveService(reserveRepository, hospitalRepository, reserveMapper);
     }
 
     @Test
@@ -39,13 +42,6 @@ public class ReserveServiceTest {
         List<Reserve> userReserves = reserveService.getReservesByUser(userId);
 
         Assertions.assertThat(userReserves).hasSize(2);
-    }
-
-    @Test(expected = UserNotFoundException.class)
-    public void itShouldThrowUserNotFoundExceptionIfIdIsNotProvided() {
-        Long userId = null;
-
-        reserveService.getReservesByUser(userId);
     }
 
     @Test
@@ -76,6 +72,16 @@ public class ReserveServiceTest {
         reserveService.makeReserve(reserveDto);
 
         Assertions.assertThat(hospital.getAppointmentsAmount()).isEqualTo(9);
+    }
+
+    @Test
+    public void itShouldReturnACalendarReserveList() {
+        Long userId = 1L;
+        whenThereAreReservesForUser(userId);
+
+        List<CalendarReserve> reserves = reserveService.getReservesForCalendar(userId);
+
+        Assertions.assertThat(reserves).hasSize(2);
     }
 
     private void whenThereAreReservesForUser(Long id) {

@@ -10,6 +10,7 @@
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
     />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css">
 
     <link rel="stylesheet" href="css/common.css">
 </head>
@@ -26,8 +27,10 @@
                    class="nav-link px-2 text-white ">
                     Hospitales cercanos</a>
             </li>
-            <li><a href="${pageContext.request.contextPath}/reserves" class="nav-link px-2 text-white">Mis reservas</a></li>
-            <li><a href="${pageContext.request.contextPath}/vaccine-recommended-by-age" class="nav-link px-2 text-white">factor edad</a></li>
+            <li><a href="${pageContext.request.contextPath}/reserves" class="nav-link px-2 text-white">Mis reservas</a>
+            </li>
+            <li><a href="${pageContext.request.contextPath}/vaccine-recommended-by-age"
+                   class="nav-link px-2 text-white">factor edad</a></li>
             <li><a href="#" class="nav-link px-2 text-white">Vista 5</a></li>
         </ul>
     </div>
@@ -54,7 +57,7 @@
                 <li class="list-group-item my-4 shadow-sm rounded">
                     <div class="p-2">
                         <p class="mb-2">
-                            Su turno esta agendado para el dia: <c:out value="${reserve.date}"/>
+                            Su turno esta agendado para el dia: <c:out value="${reserve.dateFormatted}"/>
                         </p>
 
                         <p class="mb-2">
@@ -67,11 +70,19 @@
         </ul>
     </c:if>
 
+
+    <section class="mt-5">
+        <div id='calendar'></div>
+    </section>
+
 </main>
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
         crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
+<script src="js/calendar.js">
+</script>
 </body>
 </html>

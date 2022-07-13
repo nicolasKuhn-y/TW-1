@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -56,15 +57,15 @@
             </p>
         </div>
 
-        <form action="${pageContext.request.contextPath}/reserves/${hospital.id}?date=2022-07-11T18:25:00" method="POST">
+        <form action="${pageContext.request.contextPath}/reserves/${hospital.id}" method="POST">
             <div class="form-row">
                 <div class="form-group col-md-4">
                     <label for="date">Fecha</label>
-                    <input id="date" type="date" name="appointmentDay" class="form-control">
+                    <input id="date" type="date" name="date" class="form-control"/>
                 </div>
                 <div class="form-group col-md-2">
-                    <label for="hour">Hora</label>
-                    <input id="hour" type="time" name="appointmentHour" class="form-control">
+                    <label for="time">Hora</label>
+                    <input id="time" type="time" name="time" class="form-control"/>
                 </div>
             </div>
             <button type="submit" class="btn btn-primary">Agendar Turno</button>
