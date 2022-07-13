@@ -23,7 +23,7 @@
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
             <li><a href="${pageContext.request.contextPath}/countries" class="nav-link px-2 text-white">Home</a></li>
             <li>
-                <a href="${pageContext.request.contextPath}/nearest-hospitals?lat=-34.70140180538249&long=-57.61267614077974"
+                <a id="coordinates" href="${pageContext.request.contextPath}/nearest-hospitals"
                    class="nav-link px-2 text-white ">
                     Hospitales cercanos</a>
             </li>
@@ -51,29 +51,36 @@
             <p class="mb-1">Estas son sus reservas hasta la fecha:</p>
         </div>
 
+        <section class="mt-5">
+            <div id='calendar'></div>
+        </section>
 
-        <ul class="list-group " style="max-width: 800px">
-            <c:forEach items="${reserves}" var="reserve">
-                <li class="list-group-item my-4 shadow-sm rounded">
-                    <div class="p-2">
-                        <p class="mb-2">
-                            Su turno esta agendado para el dia: <c:out value="${reserve.dateFormatted}"/>
-                        </p>
+        <section class="mt-2">
+            <p>Detalle de sus reservas actuales:</p>
 
-                        <p class="mb-2">
-                            El turno se realizara en el hospital <c:out value="${reserve.hospital.name}"/>
-                            con domicilio en <c:out value="${reserve.hospital.address}"/>.
-                        </p>
-                    </div>
-                </li>
-            </c:forEach>
-        </ul>
+            <ul class="list-group " style="max-width: 800px">
+                <c:forEach items="${reserves}" var="reserve">
+                    <li class="list-group-item my-4 shadow-sm rounded">
+                        <div class="p-2">
+                            <p class="mb-2">
+                                Su turno esta agendado para el dia: <c:out value="${reserve.dateFormatted}"/>
+                            </p>
+
+                            <p class="mb-2">
+                                El turno se realizara en el hospital <c:out value="${reserve.hospital.name}"/>
+                                con domicilio en <c:out value="${reserve.hospital.address}"/>.
+                            </p>
+                        </div>
+                    </li>
+                </c:forEach>
+            </ul>
+
+
+        </section>
+
+
     </c:if>
 
-
-    <section class="mt-5">
-        <div id='calendar'></div>
-    </section>
 
 </main>
 
@@ -82,7 +89,7 @@
         integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
         crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
-<script src="js/calendar.js">
-</script>
+<script src="js/calendar.js"></script>
+<script src="js/localization.js"></script>
 </body>
 </html>

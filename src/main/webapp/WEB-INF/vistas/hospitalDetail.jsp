@@ -18,13 +18,14 @@
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
             <li><a href="${pageContext.request.contextPath}/countries" class="nav-link px-2 text-white">Home</a></li>
             <li>
-                <a href="${pageContext.request.contextPath}/nearest-hospitals?lat=-34.70140180538249&long=-57.61267614077974"
+                <a id="coordinates" href="${pageContext.request.contextPath}/nearest-hospitals"
                    class="nav-link px-2 text-white ">
                     Hospitales cercanos</a>
             </li>
             <li><a href="${pageContext.request.contextPath}/reserves" class="nav-link px-2 text-white">Mis reservas</a>
             </li>
-            <li><a href="#" class="nav-link px-2 text-white">Vista 4</a></li>
+            <li><a href="${pageContext.request.contextPath}/vaccine-recommended-by-age"
+                   class="nav-link px-2 text-white">factor edad</a></li>
             <li><a href="#" class="nav-link px-2 text-white">Vista 5</a></li>
         </ul>
     </div>
@@ -78,5 +79,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
         crossorigin="anonymous"></script>
+<script src="js/localization.js"></script>
+
 </body>
 </html>

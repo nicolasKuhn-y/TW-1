@@ -1,6 +1,7 @@
 package ar.edu.unlam.tallerweb1.modelo;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Hospital {
@@ -27,6 +28,9 @@ public class Hospital {
 
     @Column(name = "appointments_mount")
     private Integer appointmentsAmount;
+
+    @OneToMany(mappedBy = "hospital")
+    private List<Comment> comments;
 
     public Long getId() {
         return id;

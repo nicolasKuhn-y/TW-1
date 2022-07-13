@@ -34,6 +34,10 @@ public class HospitalController {
         try {
             ModelMap model = new ModelMap();
 
+            if (lat == null || lng == null) {
+                return new ModelAndView("nearestHospitals", model);
+            }
+
             List<Hospital> hospitalList = hospitalService.getNearestHospitalsByLocation(lat, lng, limit);
 
             model.put("hospitals", hospitalList);
