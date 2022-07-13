@@ -9,8 +9,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import javax.xml.bind.ValidationException;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +23,7 @@ public class ReserveControllerTest {
     private ReserveService reserveService;
     private ReserveController reserveController;
     private HttpSession session;
+    private RedirectAttributes redirectAttributes = mock(RedirectAttributes.class);
 
     @Before
     public void init() {
@@ -68,9 +71,24 @@ public class ReserveControllerTest {
         String time = "03:07";
         whenUserIsLogged(userId);
 
-        ModelAndView mav = reserveController.createReserveForUser(hospitalId, date, time, null);
+        ModelAndView mav = reserveController.createReserveForUser(hospitalId, date, time, redirectAttributes);
 
         String wantedViewName = "redirect:/hospitals/" + 1;
+
+        Assertions.assertThat(mav.getViewName()).isEqualTo(wantedViewName);
+    }
+
+    @Test
+    public void itShouldRedirectToHospitalDetailWithErrorMessageIfDatesAreNotSend() {
+        Long hospitalId = 1L;
+        Long userId = 1L;
+        String date = "";
+        String time = "";
+        whenUserIsLogged(userId);
+
+        ModelAndView mav = reserveController.createReserveForUser(hospitalId, date, time, redirectAttributes);
+
+        String wantedViewName ="redirect:/hospitals/" + hospitalId;
 
         Assertions.assertThat(mav.getViewName()).isEqualTo(wantedViewName);
     }

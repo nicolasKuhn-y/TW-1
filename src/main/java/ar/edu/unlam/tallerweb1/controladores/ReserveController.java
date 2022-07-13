@@ -21,8 +21,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import javax.xml.bind.ValidationException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 public class ReserveController {
@@ -74,6 +76,9 @@ public class ReserveController {
             final RedirectAttributes redirectAttributes
     ) {
         try {
+            if (Objects.equals(date, "") || Objects.equals(time, ""))
+                throw new ValidationException("La fecha y la hora no deben estar vacias");
+
             User user = (User) session.getAttribute("user");
 
             LocalDateTime dateTime = LocalDateTimeConverter.convertToLocalDateTime(date, time);
@@ -83,7 +88,7 @@ public class ReserveController {
             reserveService.makeReserve(reserveDto);
 
             return new ModelAndView("redirect:/hospitals/" + hospitalId);
-        } catch (HospitalWithoutAppointmentsException exception) {
+        } catch (HospitalWithoutAppointmentsException | ValidationException exception) {
             redirectAttributes.addFlashAttribute("error", exception.getMessage());
 
             return new ModelAndView("redirect:/hospitals/" + hospitalId);
