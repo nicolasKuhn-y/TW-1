@@ -33,6 +33,13 @@ public class Hospital {
     @OneToMany(mappedBy = "hospital")
     private List<Comment> comments;
 
+    public Hospital() {
+    }
+
+    public Hospital(String name) {
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }
