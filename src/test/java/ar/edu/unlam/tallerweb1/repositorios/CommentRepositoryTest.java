@@ -51,7 +51,7 @@ public class CommentRepositoryTest extends SpringTest {
 
     private Hospital createHospital() {
         Hospital hospital = new Hospital();
-        hospital.setId(1L);
+        hospital.setId(3L);
         return hospital;
     }
 

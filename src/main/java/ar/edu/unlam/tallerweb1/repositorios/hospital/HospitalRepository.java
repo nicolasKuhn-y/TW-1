@@ -14,6 +14,7 @@ import java.util.List;
 @Repository
 public class HospitalRepository implements IHospitalRepository {
     private final SessionFactory sessionFactory;
+
     @Autowired
     public HospitalRepository(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;

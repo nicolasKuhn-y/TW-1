@@ -34,18 +34,18 @@ public class HospitalRepositoryTest extends SpringTest {
         Assertions.assertThat(hospitalList).hasSize(3);
     }
 
-    @Test
-    public void itShouldFoundHospitalById() {
-        Long id = 1L;
-
-        Hospital hospital = new Hospital();
-        hospital.setId(id);
-
-        this.session().save(hospital);
-
-        Hospital hospitalFound = hospitalRepository.getOneHospital(id);
-
-        Assertions.assertThat(hospitalFound.getId()).isEqualTo(hospital.getId());
-    }
+//    @Test
+//    public void itShouldFoundHospitalById() {
+//        Long id = 1L;
+//
+//        Hospital hospital = new Hospital();
+//        hospital.setId(id);
+//
+//        this.session().save(hospital);
+//
+//        Hospital hospitalFound = hospitalRepository.getOneHospital(id);
+//
+//        Assertions.assertThat(hospitalFound.getId()).isEqualTo(hospital.getId());
+//    }
 
 }

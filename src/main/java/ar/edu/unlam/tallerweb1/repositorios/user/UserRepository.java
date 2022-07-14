@@ -3,6 +3,7 @@ package ar.edu.unlam.tallerweb1.repositorios.user;
 import ar.edu.unlam.tallerweb1.entities.UserData;
 import ar.edu.unlam.tallerweb1.modelo.User;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -30,6 +31,14 @@ public class UserRepository implements IUserRepository {
         query.setParameter("password", user.getPassword());
 
         return query.getResultList().stream().findFirst().orElse(null);
+    }
+
+    @Override
+    public User findUserById(Long id) {
+        return (User) sessionFactory.getCurrentSession()
+                .createCriteria(User.class)
+                .add(Restrictions.eq("id", id))
+                .uniqueResult();
     }
 
     @Override

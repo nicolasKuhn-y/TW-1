@@ -50,7 +50,7 @@
         <div class="my-4" style="max-width: 650px">
             <p>
                 <c:out value="${hospital.description}"/>
-            </p>bold
+            </p>
 
             <p>
                 Turnos disponibles para sacar:
@@ -91,10 +91,11 @@
                                      width="65"
                                      height="65"/>
 
-                                <form class="w-100">
+                                <form action="${pageContext.request.contextPath}/comments/${hospital.id}" class="w-100">
                                     <div class="form-outline">
                                         <label class="mb-2" for="textArea">Dejar un comentario:</label>
-                                        <textarea class="form-control" id="textArea" rows="4"></textarea>
+                                        <textarea class="form-control" id="textArea" name="description"
+                                                  rows="4"></textarea>
                                     </div>
 
                                     <div class="d-flex justify-content-between mt-3">
@@ -121,9 +122,9 @@
                                 <div class="card-body p-4">
                                     <div class="">
                                         <h5>${comment.author.name}</h5>
-                                        <p class="small">Publicado hace ${comment.dayOfCreation}  dias</p>
+                                        <p class="small">Publicado hace ${comment.dayOfCreation} dias</p>
                                         <p>
-                                            ${comment.description}
+                                                ${comment.description}
                                         </p>
                                     </div>
                                 </div>

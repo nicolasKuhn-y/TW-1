@@ -4,6 +4,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Entity
 public class Comment {
@@ -26,6 +27,14 @@ public class Comment {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
+    public Comment() {
+    }
+
+    public Comment(String description, User author, Hospital hospital) {
+        this.description = description;
+        this.author = author;
+        this.hospital = hospital;
+    }
 
     public Long getId() {
         return id;
@@ -63,8 +72,11 @@ public class Comment {
         return createdAt;
     }
 
-    public int getDayOfCreation() {
-        return createdAt.getDayOfMonth();
+    public long getDayOfCreation() {
+        var today =  LocalDateTime.now();
+        var creationDate = createdAt;
+
+        return ChronoUnit.DAYS.between(creationDate, today);
     }
 
 
