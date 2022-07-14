@@ -1,6 +1,7 @@
 package ar.edu.unlam.tallerweb1.repositorios.comment;
 
 import ar.edu.unlam.tallerweb1.modelo.Comment;
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,7 @@ public class CommentRepository implements ICommentRepository {
         return sessionFactory.getCurrentSession()
                 .createCriteria(Comment.class)
                 .createAlias("hospital", "h")
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .add(Restrictions.eq("h.id", hospitalId))
                 .list();
     }

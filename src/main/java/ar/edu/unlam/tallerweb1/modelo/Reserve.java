@@ -18,7 +18,7 @@ public class Reserve {
     @ManyToOne(cascade = CascadeType.ALL)
     private User user;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     private Hospital hospital;
 
     public Reserve() {
@@ -89,6 +89,8 @@ public class Reserve {
     public String toString() {
         return "Reserve{" +
                 "id=" + id +
-                ", date=" + date;
+                ", date=" + date +
+                ", hospital=" + hospital +
+                '}';
     }
 }

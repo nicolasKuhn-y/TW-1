@@ -1,7 +1,9 @@
 package ar.edu.unlam.tallerweb1.servicios;
 
+import ar.edu.unlam.tallerweb1.exceptions.CommentValidationException;
 import ar.edu.unlam.tallerweb1.modelo.Comment;
 import ar.edu.unlam.tallerweb1.modelo.Hospital;
+import ar.edu.unlam.tallerweb1.modelo.Reserve;
 import ar.edu.unlam.tallerweb1.modelo.User;
 import ar.edu.unlam.tallerweb1.repositorios.comment.CommentRepository;
 import ar.edu.unlam.tallerweb1.repositorios.hospital.HospitalRepository;
@@ -55,10 +57,11 @@ public class CommentServiceTest {
 
     @Test
     public void itShouldCreateAComment() {
-        var user = new User();
+        var user = mock(User.class);
         var hospitalId = 1L;
         var description = "Un comentario";
-        whenCommentCreationEntitiesAreFound(hospitalId);
+        whenCommentCreationEntitiesAreFound(hospitalId, "Hospital");
+        whenUserHasReserves(user);
 
         var createCommentDto = CreateCommentDto.create(description, user, hospitalId);
 
@@ -68,6 +71,21 @@ public class CommentServiceTest {
         Assertions.assertThat(commentCreated.getDescription()).isEqualTo(description);
     }
 
+    @Test(expected = CommentValidationException.class)
+    public void itShouldThrowAnExceptionIfUserCannotComment() {
+        var user = mock(User.class);
+        var hospitalId = 1L;
+        var description = "Un comentario";
+        whenCommentCreationEntitiesAreFound(hospitalId, "Hospital que no coincide");
+        whenUserHasReserves(user);
+
+        var createCommentDto = CreateCommentDto.create(description, user, hospitalId);
+
+       commentService.createComment(createCommentDto);
+    }
+
+
+
 
     private void whenCommentsAreFound(Long id) {
         var comment1 = createComment(LocalDateTime.now().minusDays(2));
@@ -75,6 +93,16 @@ public class CommentServiceTest {
 
         when(commentRepository.getCommentsByHospital(id)).thenReturn(List.of(comment1, comment2));
     }
+
+    private void whenUserHasReserves(User user) {
+        var reserve1 = createReserve(LocalDateTime.now().minusDays(2), "Hospital");
+        var reserve2 =createReserve(LocalDateTime.now(), "Hospital");
+
+        when(user.getReserves()).thenReturn(List.of(reserve1, reserve2));
+    }
+
+
+
 
     private void thenCommentIsCreated() {
         var hospital = new Hospital();
@@ -86,8 +114,8 @@ public class CommentServiceTest {
         when(commentRepository.saveComment(comment)).thenReturn(comment);
     }
 
-    private void whenCommentCreationEntitiesAreFound(Long hospitalId) {
-        when(hospitalRepository.getOneHospital(hospitalId)).thenReturn(new Hospital());
+    private void whenCommentCreationEntitiesAreFound(Long hospitalId, String hospitalName) {
+        when(hospitalRepository.getOneHospital(hospitalId)).thenReturn(new Hospital(hospitalName));
     }
 
     private Comment createComment(LocalDateTime time) {
@@ -96,6 +124,15 @@ public class CommentServiceTest {
         comment.setCreatedAt(time);
 
         return comment;
+    }
+
+    private Reserve createReserve(LocalDateTime time, String hospitalName) {
+        var reserve = new Reserve();
+
+        reserve.setDate(time);
+        reserve.setHospital(new Hospital(hospitalName));
+
+        return reserve;
     }
 
 }

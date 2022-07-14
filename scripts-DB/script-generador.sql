@@ -51,6 +51,6 @@ VALUES
 
 INSERT INTO comment(id, createdAt, description, user_id, hospital_id)
 VALUES
-(1, '2022-07-01 08:06:33', "Atencion totalmente decepcionante e irresponsable", 3, 3),
+(1, '2022-07-06 08:06:33', "Atencion totalmente decepcionante e irresponsable", 3, 3),
 (2, '2022-03-12 18:25:29', "Me fui a sacar una carie y sali sin una pierna.", 4, 3),
 (3, '2021-12-11 20:30:13', "De los mejores lugares para atenderse en todo el pais, es mas, yo diria que es de los mejores hospitales del mundo", 2 , 3);

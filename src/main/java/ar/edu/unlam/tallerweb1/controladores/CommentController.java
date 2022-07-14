@@ -1,7 +1,7 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
-import ar.edu.unlam.tallerweb1.exceptions.CommentCreationErrorException;
-import ar.edu.unlam.tallerweb1.exceptions.CommentIsEmptyException;
+import ar.edu.unlam.tallerweb1.controladores.messages.CommentMessages;
+import ar.edu.unlam.tallerweb1.exceptions.CommentValidationException;
 import ar.edu.unlam.tallerweb1.modelo.User;
 import ar.edu.unlam.tallerweb1.servicios.comment.ICommentService;
 import ar.edu.unlam.tallerweb1.servicios.comment.dtos.CreateCommentDto;
@@ -36,7 +36,7 @@ public class CommentController {
     ) {
         try {
             if (description.trim().length() == 0)
-                throw new CommentIsEmptyException("El comentario no puede estar vacio");
+                throw new CommentValidationException(CommentMessages.EMPTY_COMMENT.message);
 
             User user = (User) session.getAttribute("user");
 
@@ -47,11 +47,11 @@ public class CommentController {
             var comment = commentService.createComment(createCommentDto);
 
             if (comment == null) {
-                throw new CommentCreationErrorException("Hubo un error al crear el comentario. Vuelva a intentar");
+                throw new CommentValidationException(CommentMessages.COMMENT_CREATION_FAILED.message);
             }
 
             return new ModelAndView("redirect:/hospitals/" + hospitalId);
-        } catch (CommentIsEmptyException | CommentCreationErrorException exception) {
+        } catch (CommentValidationException exception) {
             redirectAttributes.addFlashAttribute("error", exception.getMessage());
 
             return new ModelAndView("redirect:/hospitals/" + hospitalId);

@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
+import ar.edu.unlam.tallerweb1.controladores.messages.CommentMessages;
 import ar.edu.unlam.tallerweb1.modelo.User;
 import ar.edu.unlam.tallerweb1.servicios.comment.CommentService;
 import ar.edu.unlam.tallerweb1.servicios.comment.dtos.CreateCommentDto;
@@ -38,7 +39,7 @@ public class CommentControllerTest {
 
         String errorMessage = (String) redirectAttributes.getFlashAttributes().get("error");
 
-        Assertions.assertThat(errorMessage).isEqualTo("El comentario no puede estar vacio");
+        Assertions.assertThat(errorMessage).isEqualTo(CommentMessages.EMPTY_COMMENT.message);
         Assertions.assertThat(mav.getViewName()).isEqualTo("redirect:/hospitals/" + hospitalId);
     }
 
@@ -85,7 +86,7 @@ public class CommentControllerTest {
         String errorMessage = (String) redirectAttributes.getFlashAttributes().get("error");
 
         Assertions.assertThat(mav.getViewName()).isEqualTo("redirect:/hospitals/" + hospitalId);
-        Assertions.assertThat(errorMessage).isEqualTo("Hubo un error al crear el comentario. Vuelva a intentar");
+        Assertions.assertThat(errorMessage).isEqualTo(CommentMessages.COMMENT_CREATION_FAILED.message);
     }
 
 

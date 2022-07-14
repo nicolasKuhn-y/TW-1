@@ -32,7 +32,7 @@
 
 </header>
 
-<main class="container my-4 py-4 px-2 shadow-lgf" style="background-color: #FFFBFA;">
+<main class="container my-4 py-4 px-2 shadow" style="background-color: #FFFBFA;">
 
     <c:if test="${not empty error}">
         <p class="alert alert-danger">${error}</p>

@@ -1,6 +1,7 @@
 package ar.edu.unlam.tallerweb1.repositorios.reserve;
 
 import ar.edu.unlam.tallerweb1.modelo.Reserve;
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ public class ReserveRepository implements IReserveRepository {
     public List<Reserve> getReservesByUser(Long userId) {
         return sessionFactory.getCurrentSession()
                 .createCriteria(Reserve.class)
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .createAlias("user", "u")
                 .add(Restrictions.eq("u.id", userId))
                 .list();
