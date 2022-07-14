@@ -36,7 +36,7 @@
 
 </header>
 
-<main class="container my-5">
+<main class="container mt-5 mb-auto">
 
     <form:form action="countries" method="GET">
         <div>
@@ -139,6 +139,14 @@
     </section>
 
 </main>
+
+<footer class=" text-center text-lg-start" style="background-color: #3fbbc0">
+
+    <div class="text-center text-white p-3">
+        <p>2022 Copyright: Taller web I </p>
+    </div>
+
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"

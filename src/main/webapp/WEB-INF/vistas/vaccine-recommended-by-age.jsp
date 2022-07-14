@@ -43,28 +43,36 @@
 
 </header>
 
-<main class="container my-5">
-<form:form action="vaccine-recommended-by-age" method="GET">
-    <div>
-        <label for="anio" style=" display: block;font: 1rem 'Fira Sans', sans-serif;">Ingrese su año de nacimiento:</label>
+<main class="container my-5 mb-auto">
+    <form:form action="vaccine-recommended-by-age" method="GET">
+        <div>
+            <label for="anio" style=" display: block;font: 1rem 'Fira Sans', sans-serif;">Ingrese su año de
+                nacimiento:</label>
 
-        <input type="number" name="anio" id="anio">
-
-
-    </div>
-
-    <button class="btn btn-primary mt-2">Consultar</button>
-</form:form>
+            <input type="number" name="anio" id="anio">
 
 
-<p>Por su edad se le recomienda aplicarse las siguientes vacunas: </p>
-<c:forEach items="${vaccine}" var="vaccine">
-    <li>
-        <c:out value="${vaccine.name}"/>
-    </li>
-</c:forEach>
+        </div>
+
+        <button class="btn btn-primary mt-2">Consultar</button>
+    </form:form>
+
+
+    <p>Por su edad se le recomienda aplicarse las siguientes vacunas: </p>
+    <c:forEach items="${vaccine}" var="vaccine">
+        <li>
+            <c:out value="${vaccine.name}"/>
+        </li>
+    </c:forEach>
 </main>
 
+<footer class=" text-center text-lg-start" style="background-color: #3fbbc0">
+
+    <div class="text-center text-white p-3">
+        <p>2022 Copyright: Taller web I </p>
+    </div>
+
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
