@@ -11,6 +11,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.mockito.Mockito.mock;
@@ -40,6 +41,19 @@ public class CommentServiceTest {
     }
 
     @Test
+    public void itShouldReturnAllCommentsOrderedDESC() {
+        Long hospitalId = 1L;
+        whenCommentsAreFound(hospitalId);
+
+        List<Comment> comments = commentService.getCommentsByHospitalId(hospitalId);
+
+        var newerTime = comments.get(1).getCreatedAt();
+        var olderTime = comments.get(0).getCreatedAt();
+
+        Assertions.assertThat(newerTime).isLessThan(olderTime);
+    }
+
+    @Test
     public void itShouldCreateAComment() {
         var user = new User();
         var hospitalId = 1L;
@@ -56,8 +70,10 @@ public class CommentServiceTest {
 
 
     private void whenCommentsAreFound(Long id) {
-        when(commentRepository.getCommentsByHospital(id))
-                .thenReturn(List.of(new Comment(), new Comment()));
+        var comment1 = createComment(LocalDateTime.now().minusDays(2));
+        var comment2 = createComment(LocalDateTime.now());
+
+        when(commentRepository.getCommentsByHospital(id)).thenReturn(List.of(comment1, comment2));
     }
 
     private void thenCommentIsCreated() {
@@ -72,6 +88,14 @@ public class CommentServiceTest {
 
     private void whenCommentCreationEntitiesAreFound(Long hospitalId) {
         when(hospitalRepository.getOneHospital(hospitalId)).thenReturn(new Hospital());
+    }
+
+    private Comment createComment(LocalDateTime time) {
+        var comment = new Comment();
+
+        comment.setCreatedAt(time);
+
+        return comment;
     }
 
 }

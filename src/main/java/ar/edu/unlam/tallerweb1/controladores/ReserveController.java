@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
+import ar.edu.unlam.tallerweb1.controladores.messages.ReserveMessages;
 import ar.edu.unlam.tallerweb1.entities.LocalDateTimeConverter;
 import ar.edu.unlam.tallerweb1.exceptions.HospitalWithoutAppointmentsException;
 import ar.edu.unlam.tallerweb1.modelo.CalendarReserve;
@@ -77,13 +78,19 @@ public class ReserveController {
     ) {
         try {
             if (Objects.equals(date, "") || Objects.equals(time, ""))
-                throw new ValidationException("La fecha y la hora no deben estar vacias");
+                throw new ValidationException(ReserveMessages.EMPTY_RESERVE_TIME.message);
+
+
+            LocalDateTime reserveDate = LocalDateTimeConverter.convertToLocalDateTime(date, time);
+            LocalDateTime todayDate = LocalDateTime.now();
+
+            if (reserveDate.isBefore(todayDate))
+                throw new ValidationException(ReserveMessages.RESERVE_MADE_BEFORE_TODAY.message);
+
 
             User user = (User) session.getAttribute("user");
 
-            LocalDateTime dateTime = LocalDateTimeConverter.convertToLocalDateTime(date, time);
-
-            CreateReserveDto reserveDto = new CreateReserveDto(dateTime, user, hospitalId);
+            CreateReserveDto reserveDto = new CreateReserveDto(reserveDate, user, hospitalId);
 
             reserveService.makeReserve(reserveDto);
 

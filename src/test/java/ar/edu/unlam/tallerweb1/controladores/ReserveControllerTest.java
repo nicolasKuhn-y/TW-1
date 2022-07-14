@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
+import ar.edu.unlam.tallerweb1.controladores.messages.ReserveMessages;
 import ar.edu.unlam.tallerweb1.modelo.CalendarReserve;
 import ar.edu.unlam.tallerweb1.modelo.Reserve;
 import ar.edu.unlam.tallerweb1.modelo.User;
@@ -10,6 +11,7 @@ import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import javax.servlet.http.HttpSession;
 import javax.xml.bind.ValidationException;
@@ -23,7 +25,7 @@ public class ReserveControllerTest {
     private ReserveService reserveService;
     private ReserveController reserveController;
     private HttpSession session;
-    private RedirectAttributes redirectAttributes = mock(RedirectAttributes.class);
+    private final RedirectAttributes redirectAttributes = mock(RedirectAttributes.class);
 
     @Before
     public void init() {
@@ -84,13 +86,34 @@ public class ReserveControllerTest {
         Long userId = 1L;
         String date = "";
         String time = "";
+        RedirectAttributes redirectAttributes = new RedirectAttributesModelMap();
         whenUserIsLogged(userId);
 
-        ModelAndView mav = reserveController.createReserveForUser(hospitalId, date, time, redirectAttributes);
+        var mav = reserveController.createReserveForUser(hospitalId, date, time, redirectAttributes);
 
         String wantedViewName ="redirect:/hospitals/" + hospitalId;
+        String errorMessage = (String) redirectAttributes.getFlashAttributes().get("error");
 
         Assertions.assertThat(mav.getViewName()).isEqualTo(wantedViewName);
+        Assertions.assertThat(errorMessage).isEqualTo(ReserveMessages.EMPTY_RESERVE_TIME.message);
+    }
+
+    @Test
+    public void itShouldRedirectToHospitalDetailWithErrorMessageIfDateSendIsBeforeToday() {
+        Long hospitalId = 1L;
+        Long userId = 1L;
+        String date = "2020-01-01";
+        String time = "03:07";
+        RedirectAttributes redirectAttributes = new RedirectAttributesModelMap();
+        whenUserIsLogged(userId);
+
+        var mav = reserveController.createReserveForUser(hospitalId, date, time, redirectAttributes);
+
+        String wantedViewName ="redirect:/hospitals/" + hospitalId;
+        String errorMessage = (String) redirectAttributes.getFlashAttributes().get("error");
+
+        Assertions.assertThat(mav.getViewName()).isEqualTo(wantedViewName);
+        Assertions.assertThat(errorMessage).isEqualTo(ReserveMessages.RESERVE_MADE_BEFORE_TODAY.message);
     }
 
     @Test

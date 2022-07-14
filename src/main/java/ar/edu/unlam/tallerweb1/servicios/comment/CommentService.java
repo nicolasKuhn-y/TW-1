@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -27,7 +29,10 @@ public class CommentService implements ICommentService {
 
     @Override
     public List<Comment> getCommentsByHospitalId(Long hospitalId) {
-        return commentRepository.getCommentsByHospital(hospitalId);
+        return commentRepository.getCommentsByHospital(hospitalId)
+                .stream()
+                .sorted((Comparator.comparing(Comment::getCreatedAt).reversed()))
+                .collect(Collectors.toList());
     }
 
     @Override
