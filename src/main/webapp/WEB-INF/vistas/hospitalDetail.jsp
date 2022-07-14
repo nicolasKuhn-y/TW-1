@@ -58,18 +58,20 @@
             </p>
         </div>
 
-        <form action="${pageContext.request.contextPath}/reserves/${hospital.id}" method="POST">
+        <form action="${pageContext.request.contextPath}/reserves/${hospital.id}" method="POST"
+              style="max-width: 400px">
+
             <div class="form-row">
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-12 my-2">
                     <label for="date">Fecha</label>
                     <input id="date" type="date" name="date" class="form-control"/>
                 </div>
-                <div class="form-group col-md-2">
+                <div class="form-group col-md-12 my-2">
                     <label for="time">Hora</label>
                     <input id="time" type="time" name="time" class="form-control"/>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Agendar Turno</button>
+            <button type="submit" class="btn btn-primary w-100 my-2">Agendar Turno</button>
         </form>
 
     </section>
