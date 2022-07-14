@@ -58,6 +58,17 @@ public class HospitalControllerTest {
     }
 
     @Test
+    public void itShouldRedirectToHomeIfLatOrLongAreNotSend() {
+        Double lat = -4544.665663289716925;
+        Double lgn = null;
+
+        var mav = hospitalController.getNearestHospitals(lat, lgn, 3);
+
+        Assertions.assertThat(mav.getViewName()).isEqualTo("redirect:/countries");
+    }
+
+
+    @Test
     public void theModelShouldHaveTheFoundHospital() {
         Long id = 1L;
 
@@ -69,7 +80,7 @@ public class HospitalControllerTest {
     }
 
     @Test
-    public void itShouldRedirectToHomeIfHodpitalDetailWasNotFound() {
+    public void itShouldRedirectToHomeIfHospitalDetailWasNotFound() {
         Long id = 99L;
         whenHospitalIsNotFound(id);
 
@@ -112,7 +123,7 @@ public class HospitalControllerTest {
     }
 
     private void whenHospitalIsNotFound(Long id) {
-        when(hospitalService.getHospitalById(id)).thenThrow( new HospitalNotFoundException());
+        when(hospitalService.getHospitalById(id)).thenThrow(new HospitalNotFoundException());
     }
 
     private void whenAnErrorIsThrow(Double lat, Double lgn, Integer limit) {

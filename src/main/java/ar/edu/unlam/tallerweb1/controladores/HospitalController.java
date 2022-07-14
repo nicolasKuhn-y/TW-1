@@ -35,11 +35,9 @@ public class HospitalController {
             @RequestParam(value = "limit", required = false) Integer limit
     ) {
         try {
-            ModelMap model = new ModelMap();
+            if (lat == null || lng == null) return new ModelAndView("redirect:/countries");
 
-            if (lat == null || lng == null) {
-                return new ModelAndView("nearestHospitals", model);
-            }
+            ModelMap model = new ModelMap();
 
             List<Hospital> hospitalList = hospitalService.getNearestHospitalsByLocation(lat, lng, limit);
 
