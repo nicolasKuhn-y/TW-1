@@ -3,7 +3,7 @@ package ar.edu.unlam.tallerweb1.servicios.comment;
 import ar.edu.unlam.tallerweb1.controladores.messages.CommentMessages;
 import ar.edu.unlam.tallerweb1.exceptions.CommentValidationException;
 import ar.edu.unlam.tallerweb1.modelo.Comment;
-mimport ar.edu.unlam.tallerweb1.modelo.Reserve;
+import ar.edu.unlam.tallerweb1.modelo.Reserve;
 import ar.edu.unlam.tallerweb1.modelo.User;
 import ar.edu.unlam.tallerweb1.repositorios.comment.ICommentRepository;
 import ar.edu.unlam.tallerweb1.repositorios.hospital.IHospitalRepository;
