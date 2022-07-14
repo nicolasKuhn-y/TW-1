@@ -3,6 +3,7 @@ package ar.edu.unlam.tallerweb1.servicios.comment;
 import ar.edu.unlam.tallerweb1.controladores.messages.CommentMessages;
 import ar.edu.unlam.tallerweb1.exceptions.CommentValidationException;
 import ar.edu.unlam.tallerweb1.modelo.Comment;
+mimport ar.edu.unlam.tallerweb1.modelo.Reserve;
 import ar.edu.unlam.tallerweb1.modelo.User;
 import ar.edu.unlam.tallerweb1.repositorios.comment.ICommentRepository;
 import ar.edu.unlam.tallerweb1.repositorios.hospital.IHospitalRepository;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,7 +48,6 @@ public class CommentService implements ICommentService {
         if (!canUserComment(createCommentDto.getUser(), hospitalFound.getName()))
             throw new CommentValidationException(CommentMessages.USER_CANNOT_COMMENT.message);
 
-
         var newComment = new Comment(createCommentDto.getDescription(), createCommentDto.getUser(), hospitalFound);
 
         commentRepository.saveComment(newComment);
@@ -57,12 +58,10 @@ public class CommentService implements ICommentService {
     // Un usuario solo puede comentar si ya tuvo una reserva hecha dias previos a la fecha del comentario
     private boolean canUserComment(User user, String hospitalName) {
         var today = LocalDateTime.now();
-        var reserves = user.getReserves();
 
-        return reserves.stream()
-                .anyMatch(reserve ->
-                        reserve.getDate().isBefore(today) && reserve.getHospital().getName().equals(hospitalName)
-                );
+        Predicate<Reserve> isBeforeToday = reserve -> reserve.getDate().isBefore(today);
+        Predicate<Reserve> isTheSameHospital = reserve -> reserve.getHospital().getName().equals(hospitalName);
+
+        return user.getReserves().stream().anyMatch(isBeforeToday.and(isTheSameHospital));
     }
-
 }
